@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "492542810416",
+    "project_id": "bhangaar-b0ca3",
+    "storage_bucket": "bhangaar-b0ca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492542810416:android:5b2a7f490887fa2eba90f5",
+        "android_client_info": {
+          "package_name": "com.example.bhangaar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492542810416-0945ratievt7bbnirmld8q94oo3qodnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "e9178f320de1dd49ff2c786ff885e1589e2accee"
+          }
+        },
+        {
+          "client_id": "492542810416-7c0353hcas5e8durcvm5sqslqtpa0k0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqphHcN3M0ttu9_45DQnuxEPahZDEBspA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492542810416-7c0353hcas5e8durcvm5sqslqtpa0k0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
