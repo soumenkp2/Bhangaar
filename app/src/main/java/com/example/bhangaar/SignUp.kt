@@ -168,7 +168,7 @@ class SignUp : AppCompatActivity() {
             //     user action.
             //Log.d(TAG, "onVerificationCompleted:$credential")
             progressbar.visibility = View.GONE
-            //signInWithPhoneAuthCredential(credential)
+            signInWithPhoneAuthCredential(credential)
         }
 
         override fun onVerificationFailed(e: FirebaseException) {
