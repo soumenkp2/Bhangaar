@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.example.bhangaar.fragmentClass.homeFragment
+import com.example.bhangaar.fragmentClass.orderFragment
+import com.example.bhangaar.fragmentClass.profileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
