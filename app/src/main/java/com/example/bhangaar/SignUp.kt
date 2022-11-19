@@ -1,5 +1,6 @@
 package com.example.bhangaar
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
 import com.google.firebase.FirebaseException
@@ -174,7 +176,7 @@ class SignUp : AppCompatActivity() {
         override fun onVerificationFailed(e: FirebaseException) {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
-            //Log.w(TAG, "onVerificationFailed", e)
+            Log.w(TAG, "onVerificationFailed", e)
 
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
