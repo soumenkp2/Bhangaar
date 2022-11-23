@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,8 @@ import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.dataClass.Item_Info
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,8 +36,14 @@ class homeFragment : Fragment() {
 
     private lateinit var recycler_item : RecyclerView
     private lateinit var db : FirebaseFirestore
-    private lateinit var item_list : ArrayList<Item_Info>
+    public lateinit var item_list : ArrayList<Item_Info>
     private lateinit var item_adapter : itemAdapter
+
+    private lateinit var textname : TextView
+    private lateinit var order_btn : TextView
+    var count : Int = 0
+
+    private lateinit var item_check_list : ArrayList<Boolean>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,48 +61,34 @@ class homeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view : View = inflater.inflate(R.layout.fragment_home, container, false)
 
+        textname = view.findViewById(R.id.textname)
+        order_btn = view.findViewById(R.id.make_order_btn)
+
         recycler_item = view.findViewById(R.id.item_recycler)
         recycler_item.layoutManager = LinearLayoutManager(context)
         recycler_item.hasFixedSize()
 
         item_list = arrayListOf()
-        item_adapter = context?.let { itemAdapter(item_list, it) }!!
-
-        recycler_item.adapter = item_adapter
+        item_check_list = arrayListOf()
 
         EventChangeListener()
 
-//        db = FirebaseFirestore.getInstance()
-//        //db.collection("BhangaarItems").document("UttarPradesh").collection("201204").document("Items")
-//        //.collection("ItemList").
-//        db.collection("test").
-//        addSnapshotListener(object : EventListener<QuerySnapshot>
-//        {
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                if(p1!=null)
-//                {
-//                    Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                    Log.e(p1.toString(),"Error Message")
-//                }
-//
-//                for(dc :DocumentChange in p0?.documentChanges!!)
-//                {
-//                    if(dc.type == DocumentChange.Type.ADDED)
-//                    {
-//                        Log.v("ss","ss")
-//                        item_list.add(dc.document.toObject(Item_Info::class.java))
-//                    }
-//                }
-//
-//                item_adapter.notifyDataSetChanged()
-//
-//            }
-//
-//
-//        })
+        item_adapter = context?.let { itemAdapter(item_list, it, item_check_list) }!!
 
-        //Log.v("s", item_list[0].ItemName.toString())
+        recycler_item.adapter = item_adapter
+
+        textname.setOnClickListener {
+            Toast.makeText(context, "State 1 : "+item_check_list[0] + " and " + "State 2 : "+item_check_list[1], Toast.LENGTH_SHORT).show();
+        }
+
+        order_btn.setOnClickListener {
+
+
+        }
+
+
+
+
 
         return view
     }
@@ -120,6 +115,13 @@ class homeFragment : Fragment() {
                             {
                                 item_list.add(dc.document.toObject(Item_Info::class.java))
                             }
+                        }
+
+                        count = item_list.size
+                        while(count!=0)
+                        {
+                            item_check_list.add(false)
+                            --count
                         }
 
                         item_adapter.notifyDataSetChanged()
