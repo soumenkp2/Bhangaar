@@ -1,23 +1,26 @@
 package com.example.bhangaar.fragmentClass
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings.Global.putString
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.dataClass.Item_Info
+import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,13 +39,15 @@ class homeFragment : Fragment() {
 
     private lateinit var recycler_item : RecyclerView
     private lateinit var db : FirebaseFirestore
+    private lateinit var setdb : FirebaseFirestore
     public lateinit var item_list : ArrayList<Item_Info>
     private lateinit var item_adapter : itemAdapter
 
     private lateinit var textname : TextView
     private lateinit var order_btn : TextView
     var count : Int = 0
-
+    lateinit var order_info : Order_Info
+    lateinit var order_item_list : ArrayList<Item_Info>
     private lateinit var item_check_list : ArrayList<Boolean>
 
 
@@ -70,27 +75,86 @@ class homeFragment : Fragment() {
 
         item_list = arrayListOf()
         item_check_list = arrayListOf()
+        order_item_list = arrayListOf()
 
         EventChangeListener()
 
         item_adapter = context?.let { itemAdapter(item_list, it, item_check_list) }!!
-
         recycler_item.adapter = item_adapter
 
         textname.setOnClickListener {
             Toast.makeText(context, "State 1 : "+item_check_list[0] + " and " + "State 2 : "+item_check_list[1], Toast.LENGTH_SHORT).show();
         }
 
+
+        order_info = Order_Info()
+//        order_info.OrderNo = (0..1000000).random()
+        order_info.OrderNo = 123456
+        order_info.OrderStatus = "Confirmed"
+        order_info.UserLocation = "201204"
+        order_info.UserName = "Soumen Paul"
+        order_info.UserPhone = "10122234"
+        order_info.OrderDate = "08/11/2022"
+
         order_btn.setOnClickListener {
-
-
+            SetDataEventListener()
         }
 
 
 
-
-
         return view
+    }
+
+    private fun SetDataEventListener()
+    {
+        order_info.OrderNo = (0..1000000).random()
+        val order_no = order_info.OrderNo
+
+        //Mapping the setdb object to insert data
+        setdb = FirebaseFirestore.getInstance()
+        setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+            .document("Orders").collection(order_no.toString()).document(order_no.toString()).set(order_info)
+
+        Toast.makeText(context, "Order made", Toast.LENGTH_SHORT).show()
+
+        //Inserting Order List Items
+        order_item_list = arrayListOf()
+        var index = 0
+        var test : String = ""
+
+        while(index!=count)
+        {
+            if(item_check_list[index]==true)
+            {
+                test += item_list[index].ItemName + ","
+                order_item_list.add(item_list[index])
+
+                setdb = FirebaseFirestore.getInstance()
+                item_list[index].ItemName?.let { it1 ->
+                    setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection(order_no.toString()).document(order_no.toString()).collection("OrderItemList")
+                        .document(it1).set(item_list[index])
+                }
+
+
+            }
+            ++index
+        }
+
+        Toast.makeText(context, test, Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(activity, orderDetails::class.java)
+        intent.putExtra("OrderItemList", order_item_list)
+        intent.putExtra("OrderNo", order_info.OrderNo)
+        intent.putExtra("OrderStatus", order_info.OrderStatus)
+        intent.putExtra("Username", order_info.UserName)
+        startActivity(intent)
+        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+
+//        val transaction = activity?.supportFragmentManager?.beginTransaction()
+//        transaction?.replace(R.id.frameLayout, homeFragment())
+//        transaction?.disallowAddToBackStack()
+//        transaction?.commit()
     }
 
     private fun EventChangeListener()
@@ -118,10 +182,11 @@ class homeFragment : Fragment() {
                         }
 
                         count = item_list.size
-                        while(count!=0)
+                        var temp = count
+                        while(temp!=0)
                         {
                             item_check_list.add(false)
-                            --count
+                            --temp
                         }
 
                         item_adapter.notifyDataSetChanged()
