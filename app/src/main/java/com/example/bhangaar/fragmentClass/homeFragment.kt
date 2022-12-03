@@ -107,7 +107,8 @@ class homeFragment : Fragment() {
 
     private fun SetDataEventListener()
     {
-        order_info.OrderNo = (0..1000000).random()
+//        order_info.OrderNo = (0..1000000).random()
+        order_info.OrderNo = 123456
         val order_no = order_info.OrderNo
 
         //Mapping the setdb object to insert data
