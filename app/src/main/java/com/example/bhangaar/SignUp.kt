@@ -14,6 +14,7 @@ import android.widget.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.TimeUnit
 
 class SignUp : AppCompatActivity() {
@@ -121,8 +122,10 @@ class SignUp : AppCompatActivity() {
                     //Log.d(TAG, "signInWithCredential:success")
                     Toast.makeText(this,"Verified", Toast.LENGTH_SHORT).show();
 
+
                     val intent : Intent
                     intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     startActivity(intent)
 
                     val user = task.result?.user
@@ -281,8 +284,9 @@ class SignUp : AppCompatActivity() {
         super.onStart()
         if(auth.currentUser != null)
         {
-            var intent : Intent
+            val intent : Intent
             intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
             startActivity(intent)
         }
     }

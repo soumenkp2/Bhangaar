@@ -5,10 +5,37 @@
     android:layout_height="match_parent"
     tools:context=".fragmentClass.orderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Order" />
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bhangaar Order's"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/black"
+            android:id="@+id/textname"
+            android:paddingLeft="20dp"
+            android:paddingTop="30dp"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View your order history"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/teal_700"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:textSize="22sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderdetail_recycler"/>
+
+    </LinearLayout>
 
 </FrameLayout>
