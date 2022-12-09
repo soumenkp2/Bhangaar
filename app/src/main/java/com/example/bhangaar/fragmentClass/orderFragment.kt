@@ -1,11 +1,21 @@
 package com.example.bhangaar.fragmentClass
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
+import com.example.bhangaar.adapterClass.itemAdapter
+import com.example.bhangaar.adapterClass.orderDetailsAdapter
+import com.example.bhangaar.dataClass.Item_Info
+import com.example.bhangaar.dataClass.Order_Info
+import com.google.firebase.firestore.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +32,12 @@ class orderFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var order_detail_recycler : RecyclerView
+    private lateinit var orderDetailList : ArrayList<Order_Info>
+    private lateinit var db : FirebaseFirestore
+    private lateinit var userid : String
+    private lateinit var orderDetailsAdapter: orderDetailsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,8 +51,57 @@ class orderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false)
+        val view : View = inflater.inflate(R.layout.fragment_order, container, false)
+
+        //Fetching user id value via bundles from MainActivity
+        val bundle = arguments
+        userid = bundle!!.getString("userid").toString()
+
+        //Initializing objects
+        order_detail_recycler = view.findViewById(R.id.orderdetail_recycler)
+        order_detail_recycler.layoutManager = LinearLayoutManager(context)
+        order_detail_recycler.hasFixedSize()
+        orderDetailList = arrayListOf()
+
+        fetchOrderDetailData()
+
+        orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it) }!!
+        order_detail_recycler.adapter = orderDetailsAdapter
+
+        return view
     }
+
+    private fun fetchOrderDetailData() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204").document("Users")
+            .collection(userid).document("Orders").collection("OrderDetailList").
+            addSnapshotListener(object : EventListener<QuerySnapshot>
+            {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                    if(p1!=null)
+                    {
+                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                        Log.e(p1.toString(),"Error Message")
+                    }
+
+                    for(dc : DocumentChange in p0?.documentChanges!!)
+                    {
+                        if(dc.type == DocumentChange.Type.ADDED)
+                        {
+                            orderDetailList.add(dc.document.toObject(Order_Info::class.java))
+                        }
+                    }
+
+                    orderDetailsAdapter.notifyDataSetChanged()
+
+                }
+
+
+            })
+
+    }
+
 
     companion object {
         /**
