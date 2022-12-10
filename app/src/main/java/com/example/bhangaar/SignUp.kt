@@ -40,9 +40,13 @@ class SignUp : AppCompatActivity() {
     private lateinit var otp5 : EditText
     private lateinit var otp6 : EditText
 
+    private lateinit var role : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+
+        role = intent.extras?.get("role").toString()
 
         init()
 
@@ -125,6 +129,7 @@ class SignUp : AppCompatActivity() {
 
                     val intent : Intent
                     intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("role",role)
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     startActivity(intent)
 
@@ -286,6 +291,7 @@ class SignUp : AppCompatActivity() {
         {
             val intent : Intent
             intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("role",role)
             intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
             startActivity(intent)
         }

@@ -122,7 +122,7 @@ class homeFragment : Fragment() {
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
         setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-            .document("Orders").collection(order_no.toString()).document(order_no.toString()).set(order_info)
+            .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
         //Mapping the usersetdb object to insert data
         usersetdb = FirebaseFirestore.getInstance()
@@ -154,7 +154,7 @@ class homeFragment : Fragment() {
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
                     setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-                        .document("Orders").collection(order_no.toString()).document(order_no.toString()).collection("OrderItemList")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
                 }
 

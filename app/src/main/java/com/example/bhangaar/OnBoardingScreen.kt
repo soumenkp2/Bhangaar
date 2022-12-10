@@ -18,7 +18,7 @@ class OnBoardingScreen : AppCompatActivity() {
 
         register_btn.setOnClickListener(
             View.OnClickListener {
-                val intent = Intent(this@OnBoardingScreen, SignUp :: class.java);
+                val intent = Intent(this@OnBoardingScreen, Selection:: class.java);
                 startActivity(intent);
             }
         )
