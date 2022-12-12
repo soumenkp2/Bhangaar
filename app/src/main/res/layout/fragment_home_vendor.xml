@@ -5,10 +5,71 @@
     android:layout_height="match_parent"
     tools:context=".fragmentClassVendor.homeFragmentVendor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/navigation_drawer_icon" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_weight="1"
+                    android:src="@drawable/search_icon" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hello Soumen,"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/black"
+                android:id="@+id/textname"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Here are your Order Request's"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/teal_700"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderlist_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
 
 </FrameLayout>

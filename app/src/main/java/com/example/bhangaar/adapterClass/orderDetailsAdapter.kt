@@ -48,12 +48,43 @@ class orderDetailsAdapter(private val userid : String, private val order_list : 
 
         holder.order_list.layoutManager = LinearLayoutManager(context)
         holder.order_list.hasFixedSize()
-        itemlist = arrayListOf()
+        val itemlist : ArrayList<Item_Info> = arrayListOf()
 
-        fetchOrderItemData()
+        //fetchOrderItemData()
+
+        val db : FirebaseFirestore
+        db = FirebaseFirestore.getInstance()
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204").document("Users")
+            .collection(userid).document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
+            .addSnapshotListener(object : EventListener<QuerySnapshot>
+            {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                    if(p1!=null)
+                    {
+                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                        Log.e(p1.toString(),"Error Message")
+                    }
+
+                    for(dc : DocumentChange in p0?.documentChanges!!)
+                    {
+                        if(dc.type == DocumentChange.Type.ADDED)
+                        {
+                            itemlist.add(dc.document.toObject(Item_Info::class.java))
+                        }
+                    }
+
+                    orderAdapter.notifyDataSetChanged()
+
+                }
+
+
+            })
 
         orderAdapter = context.let { orderAdapter(itemlist, it) }
         holder.order_list.adapter = orderAdapter
+
+
 
 
 

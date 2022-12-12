@@ -33,11 +33,15 @@
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/green_accept.xml" value="0.1975" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/navigation_drawer_icon.xml" value="0.136" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/primary_outline.xml" value="0.136" />
+        <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/primary_outline_dark.xml" value="0.205" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/profile_icon_primary.xml" value="0.136" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/profile_icon_white.xml" value="0.1975" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/red_cancel.xml" value="0.1975" />
+        <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/red_cancel_btn.xml" value="0.161" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/search_icon.xml" value="0.136" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/up_arrow.xml" value="0.1975" />
+        <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/white_cancel_btn.xml" value="0.161" />
+        <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/drawable/white_right.xml" value="0.161" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/activity_main.xml" value="0.1585144927536232" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/activity_order_details.xml" value="0.2" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/activity_selection.xml" value="0.21981981981981982" />
@@ -51,6 +55,7 @@
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/fragment_order_vendor.xml" value="0.21981981981981982" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/fragment_profile.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/fragment_profile_vendor.xml" value="0.21981981981981982" />
+        <entry key="..\:/Users/samir/Downloads/Bhangaar/app/src/main/res/layout/transaction_dialogbox.xml" value="0.136" />
       </map>
     </option>
   </component>

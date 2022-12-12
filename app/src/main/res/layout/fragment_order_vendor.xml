@@ -5,10 +5,87 @@
     android:layout_height="match_parent"
     tools:context=".fragmentClassVendor.orderFragmentVendor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Order History"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/black"
+                android:id="@+id/textname"
+                android:paddingLeft="20dp"
+                android:paddingTop="30dp"
+                android:textSize="30sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:id="@+id/livebtn"
+                    android:background="@drawable/primary_outline"
+                    android:text="Live"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/teal_700"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:id="@+id/completebtn"
+                    android:gravity="center"
+                    android:background="@drawable/primary_outline"
+                    android:text="Completed"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/teal_700"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:id="@+id/cancelbtn"
+                    android:gravity="center"
+                    android:background="@drawable/primary_outline"
+                    android:text="Cancelled"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/teal_700"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/orderlist_recycler"/>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
 
 </FrameLayout>

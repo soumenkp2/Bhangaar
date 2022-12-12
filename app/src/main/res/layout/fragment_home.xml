@@ -54,7 +54,7 @@
             android:textColor="@color/teal_700"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
-            android:textSize="22sp"/>
+            android:textSize="20sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
