@@ -67,7 +67,7 @@ class homeFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

@@ -14,11 +14,13 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.orderTransactionDialog
 import com.google.firebase.firestore.*
 
@@ -104,7 +106,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -135,12 +137,14 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         orderAdapter = context.let { orderAdapter(itemlist, it) }
         holder.order_list.adapter = orderAdapter
 
+
+
         holder.accept_card.setOnClickListener {
             holder.order_status.text = "Accepted"
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog()
+            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), "accepted")
             alertDialog.show(fm, "fragment_alert")
 
 
@@ -154,19 +158,31 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         holder.complete_card.setOnClickListener {
             holder.order_status.text = "Completed"
 
-            val db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
-                .update(mapOf("orderStatus" to holder.order_status.text))
+            val activity = context as FragmentActivity
+            val fm: FragmentManager = activity.supportFragmentManager
+            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), "completed")
+            alertDialog.show(fm, "fragment_alert")
+
+//            val db = FirebaseFirestore.getInstance()
+//            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+//                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
+//                .update(mapOf("orderStatus" to holder.order_status.text))
+//
+//            notifyDataSetChanged()
         }
 
         holder.cancel_card.setOnClickListener {
             holder.order_status.text = "Cancelled"
 
-            val db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
-                .update(mapOf("orderStatus" to holder.order_status.text))
+            val activity = context as FragmentActivity
+            val fm: FragmentManager = activity.supportFragmentManager
+            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), "cancelled")
+            alertDialog.show(fm, "fragment_alert")
+
+//            val db = FirebaseFirestore.getInstance()
+//            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+//                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
+//                .update(mapOf("orderStatus" to holder.order_status.text))
         }
 
 

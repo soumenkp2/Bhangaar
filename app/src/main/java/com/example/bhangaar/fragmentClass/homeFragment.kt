@@ -16,6 +16,7 @@ import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -96,8 +97,8 @@ class homeFragment : Fragment() {
 
 
         order_info = Order_Info()
-//        order_info.OrderNo = (0..1000000).random()
-        order_info.OrderNo = 123456
+        order_info.OrderNo = (0..1000000).random()
+        //order_info.OrderNo = 123456
         order_info.OrderStatus = "Confirmed"
         order_info.UserLocation = "201204"
         order_info.UserName = "Soumen Paul"
@@ -107,6 +108,25 @@ class homeFragment : Fragment() {
         order_btn.setOnClickListener {
             order_info.OrderNo = (0..1000000).random()
             SetDataEventListener()
+
+            val bundle = Bundle()
+            bundle.putString("userid",authUserId)
+            bundle.putString("role","user")
+            val homeFrag = homeFragment()
+            homeFrag.arguments = bundle
+
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            if (transaction != null) {
+                transaction.replace(R.id.frameLayout, homeFrag)
+            }
+            if (transaction != null) {
+                transaction.disallowAddToBackStack()
+            }
+            if (transaction != null) {
+                transaction.commit()
+
+            }
+
         }
 
 
@@ -122,12 +142,12 @@ class homeFragment : Fragment() {
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
-        setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        setdb.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
         //Mapping the usersetdb object to insert data
         usersetdb = FirebaseFirestore.getInstance()
-        usersetdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        usersetdb.collection("test").document("UttarPradesh").collection("201204")
             .document("Users").collection(authUserId)
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
@@ -154,7 +174,7 @@ class homeFragment : Fragment() {
 
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    setdb.collection("test").document("UttarPradesh").collection("201204")
                         .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
                 }
@@ -169,7 +189,7 @@ class homeFragment : Fragment() {
 
                 usersetdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    usersetdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    usersetdb.collection("test").document("UttarPradesh").collection("201204")
                         .document("Users").collection(authUserId)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
