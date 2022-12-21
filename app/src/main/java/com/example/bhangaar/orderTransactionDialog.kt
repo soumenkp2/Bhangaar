@@ -8,17 +8,109 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
+import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
-import kotlin.collections.ArrayList
 
-class orderTransactionDialog() : DialogFragment() {
+class orderTransactionDialog(private val scr : String, private val order_no : String, private var action : String) : DialogFragment() {
+
+    private lateinit var yesbtn : ImageView
+    private lateinit var nobtn : ImageView
+    private lateinit var content : TextView
+    private var screen : String = scr.toString()
+    private var change : String = action.toString()
+   // private var dialog : orderTransactionDialog = alertDialog
 
 
     // dialog view is created
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Objects.requireNonNull(dialog)?.window!!.requestFeature(Window.FEATURE_NO_TITLE)
-        return inflater.inflate(R.layout.transaction_dialogbox,null,false)
+        //Objects.requireNonNull(dialog)?.window!!.requestFeature(Window.FEATURE_NO_TITLE)
+        var v : View =  inflater.inflate(R.layout.transaction_dialogbox,null,false)
+
+        yesbtn = v.findViewById(R.id.yesbtn)
+        nobtn = v.findViewById(R.id.nobtn)
+        content = v.findViewById(R.id.dialog_content)
+
+        content.text = screen.toString()
+
+        yesbtn.setOnClickListener {
+
+            if(change == "accepted")
+            {
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("test").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("orderStatus" to "Accepted"))
+
+                    transaction.replace(R.id.frameLayout, homeFragmentVendor())
+                }
+                if (transaction != null) {
+                    transaction.disallowAddToBackStack()
+                }
+                if (transaction != null) {
+                    dismiss()
+                    transaction.commit()
+
+                }
+            }
+            else if(change == "completed")
+            {
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("test").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("orderStatus" to "Completed"))
+
+                    transaction.replace(R.id.frameLayout, orderFragmentVendor())
+                }
+                if (transaction != null) {
+                    transaction.disallowAddToBackStack()
+                }
+                if (transaction != null) {
+                    dismiss()
+                    transaction.commit()
+
+                }
+            }
+            else if(change == "cancelled")
+            {
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("test").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("orderStatus" to "Cancelled"))
+
+                    transaction.replace(R.id.frameLayout, orderFragmentVendor())
+                }
+                if (transaction != null) {
+                    transaction.disallowAddToBackStack()
+                }
+                if (transaction != null) {
+                    dismiss()
+                    transaction.commit()
+
+                }
+            }
+
+        }
+
+        nobtn.setOnClickListener {
+            dismiss()
+        }
+
+
+        return v
     }
 
     //dialog view is ready

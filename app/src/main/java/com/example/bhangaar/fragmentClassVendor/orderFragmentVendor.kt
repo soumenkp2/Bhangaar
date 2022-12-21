@@ -1,20 +1,25 @@
 package com.example.bhangaar.fragmentClassVendor
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.orderRequestAdapter
 import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.orderTransactionDialog
 import com.google.firebase.firestore.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -110,7 +115,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Live() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -147,7 +152,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Completed() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -184,7 +189,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Cancelled() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("test").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

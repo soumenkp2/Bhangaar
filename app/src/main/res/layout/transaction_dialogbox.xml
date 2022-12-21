@@ -28,9 +28,10 @@
             <ImageView
                 android:id="@+id/order_pic"
                 android:layout_width="200dp"
+                android:padding="20dp"
                 android:layout_height="200dp"
                 android:visibility="visible"
-                android:src="@drawable/people_hearts"
+                android:src="@drawable/vendor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,21 +53,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/order_pic" />
 
 
-            <ImageView
-                android:id="@+id/up_arrow"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:rotation="180"
-                android:src="@drawable/red_cancel_btn"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.945"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/yesbtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
@@ -80,6 +69,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
+                android:id="@+id/nobtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
@@ -88,7 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.628"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/yesbtn"
                 app:layout_constraintTop_toBottomOf="@+id/dialog_content"
                 app:layout_constraintVertical_bias="1.0" />
 

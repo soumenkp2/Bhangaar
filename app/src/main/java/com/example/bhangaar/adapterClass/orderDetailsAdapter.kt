@@ -54,7 +54,7 @@ class orderDetailsAdapter(private val userid : String, private val order_list : 
 
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204").document("Users")
+        db.collection("test").document("UttarPradesh").collection("201204").document("Users")
             .collection(userid).document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
