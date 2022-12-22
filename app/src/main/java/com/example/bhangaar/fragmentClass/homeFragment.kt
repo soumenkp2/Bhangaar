@@ -16,6 +16,7 @@ import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -40,6 +41,7 @@ class homeFragment : Fragment() {
     private lateinit var recycler_item : RecyclerView
     private lateinit var db : FirebaseFirestore
     private lateinit var setdb : FirebaseFirestore
+    private lateinit var usersetdb : FirebaseFirestore
     public lateinit var item_list : ArrayList<Item_Info>
     private lateinit var item_adapter : itemAdapter
 
@@ -49,6 +51,8 @@ class homeFragment : Fragment() {
     lateinit var order_info : Order_Info
     lateinit var order_item_list : ArrayList<Item_Info>
     private lateinit var item_check_list : ArrayList<Boolean>
+
+    var authUserId = "Soumen"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +69,11 @@ class homeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view : View = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val bundle = arguments
+        authUserId = bundle!!.getString("userid").toString()
+
+        //Toast.makeText(context, authUserId, Toast.LENGTH_SHORT).show();
 
         textname = view.findViewById(R.id.textname)
         order_btn = view.findViewById(R.id.make_order_btn)
@@ -88,8 +97,8 @@ class homeFragment : Fragment() {
 
 
         order_info = Order_Info()
-//        order_info.OrderNo = (0..1000000).random()
-        order_info.OrderNo = 123456
+        order_info.OrderNo = (0..1000000).random()
+        //order_info.OrderNo = 123456
         order_info.OrderStatus = "Confirmed"
         order_info.UserLocation = "201204"
         order_info.UserName = "Soumen Paul"
@@ -97,7 +106,27 @@ class homeFragment : Fragment() {
         order_info.OrderDate = "08/11/2022"
 
         order_btn.setOnClickListener {
+            order_info.OrderNo = (0..1000000).random()
             SetDataEventListener()
+
+            val bundle = Bundle()
+            bundle.putString("userid",authUserId)
+            bundle.putString("role","user")
+            val homeFrag = homeFragment()
+            homeFrag.arguments = bundle
+
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            if (transaction != null) {
+                transaction.replace(R.id.frameLayout, homeFrag)
+            }
+            if (transaction != null) {
+                transaction.disallowAddToBackStack()
+            }
+            if (transaction != null) {
+                transaction.commit()
+
+            }
+
         }
 
 
@@ -107,14 +136,20 @@ class homeFragment : Fragment() {
 
     private fun SetDataEventListener()
     {
-//        order_info.OrderNo = (0..1000000).random()
-        order_info.OrderNo = 123456
+        order_info.OrderNo = (0..1000000).random()
+        //order_info.OrderNo = 654321
         val order_no = order_info.OrderNo
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
-        setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-            .document("Orders").collection(order_no.toString()).document(order_no.toString()).set(order_info)
+        setdb.collection("test").document("UttarPradesh").collection("201204")
+            .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
+
+        //Mapping the usersetdb object to insert data
+        usersetdb = FirebaseFirestore.getInstance()
+        usersetdb.collection("test").document("UttarPradesh").collection("201204")
+            .document("Users").collection(authUserId)
+            .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
         Toast.makeText(context, "Order made", Toast.LENGTH_SHORT).show()
 
@@ -130,15 +165,40 @@ class homeFragment : Fragment() {
                 test += item_list[index].ItemName + ","
                 order_item_list.add(item_list[index])
 
+//                usersetdb = FirebaseFirestore.getInstance()
+//                item_list[index].ItemName?.let { it1 ->
+//                    usersetdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+//                        .document("Users").collection(authUserId)
+//                        .document("Orders").collection(order_no.toString()).document(order_no.toString()).collection("OrderItemList")
+//                        .document(it1).set(item_list[index])
+
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-                        .document("Orders").collection(order_no.toString()).document(order_no.toString()).collection("OrderItemList")
+                    setdb.collection("test").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
                 }
 
 
             }
+
+            if(item_check_list[index]==true)
+            {
+                test += item_list[index].ItemName + ","
+                //order_item_list.add(item_list[index])
+
+                usersetdb = FirebaseFirestore.getInstance()
+                item_list[index].ItemName?.let { it1 ->
+                    usersetdb.collection("test").document("UttarPradesh").collection("201204")
+                        .document("Users").collection(authUserId)
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
+                        .document(it1).set(item_list[index])
+
+                }
+
+
+            }
+
             ++index
         }
 
