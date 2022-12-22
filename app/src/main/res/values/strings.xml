@@ -2,4 +2,14 @@
     <string name="app_name">Bhangaar</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="orders">Orders</string>
+    <string name="transactions">Transactions</string>
+
+    <string name="social">Social</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="location">Location</string>
+    <string name="amrit_raj">Amrit Raj</string>
+    <string name="offers">Offers</string>
+    <string name="xxxx_xxxx_xxxx">xxxx-xxxx-xxxx</string>
+
 </resources>
