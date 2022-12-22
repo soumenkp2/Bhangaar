@@ -4,8 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#53CD9F"
         android:orientation="vertical">
@@ -20,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
                 <ImageView
                     android:id="@+id/profile_bg"
                     android:layout_width="120dp"
@@ -27,8 +29,10 @@
                     android:src="@drawable/profile_pic_bg"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.501"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.375" />
 
 
                 <ImageView
@@ -40,8 +44,8 @@
                     app:layout_constraintEnd_toEndOf="@+id/profile_bg"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.375" />
 
                 <ImageView
                     android:id="@+id/edit_dp"
@@ -50,13 +54,13 @@
                     android:src="@drawable/editing"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.585"
+                    app:layout_constraintHorizontal_bias="0.59"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.622" />
+                    app:layout_constraintVertical_bias="0.537" />
 
                 <ImageView
-                    android:id="@+id/settings_button"
+                    android:id="@+id/back_button"
                     android:layout_width="45dp"
                     android:layout_height="40dp"
                     android:src="@drawable/settings_btn"
@@ -68,7 +72,7 @@
                     app:layout_constraintVertical_bias="0.1" />
 
                 <ImageView
-                    android:id="@+id/back_button"
+                    android:id="@+id/settings_button"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:background="@drawable/back_btn_usr"
@@ -79,8 +83,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.1" />
 
+
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/vendor_name"
                     android:layout_width="140dp"
                     android:layout_height="40dp"
                     android:background="@drawable/view_background"
@@ -96,10 +101,10 @@
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.834" />
+                    app:layout_constraintVertical_bias="0.738" />
 
                 <ImageView
-                    android:id="@+id/edit_usr_name"
+                    android:id="@+id/vendor_name_edit"
                     android:layout_width="25dp"
                     android:layout_height="20dp"
                     android:src="@drawable/editing"
@@ -108,7 +113,38 @@
                     app:layout_constraintHorizontal_bias="0.624"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.8" />
+                    app:layout_constraintVertical_bias="0.71" />
+
+                <TextView
+                    android:id="@+id/vendor_aadhar"
+                    android:layout_width="180dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/view_background"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="start"
+                    android:paddingStart="15dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/xxxx_xxxx_xxxx"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.93" />
+
+                <ImageView
+                    android:id="@+id/aadhar_edit"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/editing"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.689"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.889" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
