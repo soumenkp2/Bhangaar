@@ -15,6 +15,12 @@
             android:name=".Selection"
             android:exported="false" />
         <activity
+            android:name=".AadharVerification"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp_Vendor"
+            android:exported="false" />
+        <activity
             android:name=".orderDetails"
             android:exported="false" />
         <activity
