@@ -46,6 +46,8 @@ class orderFragmentVendor : Fragment() {
     private lateinit var completebtn :TextView
     private lateinit var cancelbtn :TextView
 
+    private lateinit var authVendorId : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -61,6 +63,9 @@ class orderFragmentVendor : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_order_vendor, container, false)
 
+        val bundle = arguments
+        authVendorId = bundle!!.getString("userid").toString()
+
         //Initializing objects
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
         livebtn = view.findViewById(R.id.livebtn)
@@ -72,7 +77,7 @@ class orderFragmentVendor : Fragment() {
         orderDetailList = arrayListOf()
 
         fetchOrderDetailData_Live()
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted") }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted", authVendorId) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
@@ -85,7 +90,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Live()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted") }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Accepted", authVendorId) }!!
             order_request_recycler.adapter = orderDetailsAdapter
 
         }
@@ -96,7 +101,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Completed()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Completed") }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Completed", authVendorId) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 
@@ -106,7 +111,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Cancelled()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled") }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled", authVendorId) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 
@@ -115,7 +120,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Live() {
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -133,7 +138,7 @@ class orderFragmentVendor : Fragment() {
                         {
                             val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
 
-                            if(order_item.OrderStatus.equals("Accepted"))
+                            if(order_item.OrderStatus.equals("Accepted") && order_item.authvendorid.equals(authVendorId))
                             {
                                 orderDetailList.add(order_item)
                             }
@@ -152,7 +157,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Completed() {
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -170,7 +175,7 @@ class orderFragmentVendor : Fragment() {
                         {
                             val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
 
-                            if(order_item.OrderStatus.equals("Completed"))
+                            if(order_item.OrderStatus.equals("Completed") && order_item.authvendorid.equals(authVendorId))
                             {
                                 orderDetailList.add(order_item)
                             }
@@ -189,7 +194,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Cancelled() {
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -207,7 +212,7 @@ class orderFragmentVendor : Fragment() {
                         {
                             val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
 
-                            if(order_item.OrderStatus.equals("Cancelled"))
+                            if(order_item.OrderStatus.equals("Cancelled") && order_item.authvendorid.equals(authVendorId))
                             {
                                 orderDetailList.add(order_item)
                             }

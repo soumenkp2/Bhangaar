@@ -4,19 +4,23 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.example.bhangaar.dataClass.Item_Info
+import com.example.bhangaar.dataClass.Order_Info
 import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
-class orderTransactionDialog(private val scr : String, private val order_no : String, private var action : String) : DialogFragment() {
+class orderTransactionDialog(private val scr : String, private val order_no : String, private var authUserId : String, private var authVendorId : String, private var order_item : Order_Info, private var itemlist : ArrayList<Item_Info>, private var action : String) : DialogFragment() {
 
     private lateinit var yesbtn : ImageView
     private lateinit var nobtn : ImageView
@@ -37,19 +41,34 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
         content.text = screen.toString()
 
+
+        Toast.makeText(context, order_item.OrderNo.toString(), Toast.LENGTH_SHORT).show()
+
         yesbtn.setOnClickListener {
 
             if(change == "accepted")
             {
+                var homefrag = homeFragmentVendor()
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 if (transaction != null) {
 
-                    val db = FirebaseFirestore.getInstance()
-                    db.collection("test").document("UttarPradesh").collection("201204")
+                    var db = FirebaseFirestore.getInstance()
+                    db = FirebaseFirestore.getInstance()
+                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Accepted"))
 
-                    transaction.replace(R.id.frameLayout, homeFragmentVendor())
+                    var dbb = FirebaseFirestore.getInstance()
+                    dbb = FirebaseFirestore.getInstance()
+                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("authvendorid" to authVendorId.toString()))
+
+                    val bundle = Bundle()
+                    bundle.putString("userid",authUserId)
+                    homefrag.arguments = bundle
+
+                    transaction.replace(R.id.frameLayout, homefrag)
                 }
                 if (transaction != null) {
                     transaction.disallowAddToBackStack()
@@ -65,12 +84,25 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 if (transaction != null) {
 
-                    val db = FirebaseFirestore.getInstance()
-                    db.collection("test").document("UttarPradesh").collection("201204")
+                    var db = FirebaseFirestore.getInstance()
+                    db = FirebaseFirestore.getInstance()
+                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Completed"))
 
-                    transaction.replace(R.id.frameLayout, orderFragmentVendor())
+                    var dbb = FirebaseFirestore.getInstance()
+
+                    dbb = FirebaseFirestore.getInstance()
+                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("authvendorid" to authVendorId.toString()))
+
+                    val orderfrag = orderFragmentVendor()
+                    val bundle = Bundle()
+                    bundle.putString("userid",authUserId)
+                    orderfrag.arguments = bundle
+
+                    transaction.replace(R.id.frameLayout, orderfrag)
                 }
                 if (transaction != null) {
                     transaction.disallowAddToBackStack()
@@ -83,15 +115,27 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
             }
             else if(change == "cancelled")
             {
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                var transaction = activity?.supportFragmentManager?.beginTransaction()
                 if (transaction != null) {
 
-                    val db = FirebaseFirestore.getInstance()
-                    db.collection("test").document("UttarPradesh").collection("201204")
+                    var db = FirebaseFirestore.getInstance()
+                    db = FirebaseFirestore.getInstance()
+                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Cancelled"))
 
-                    transaction.replace(R.id.frameLayout, orderFragmentVendor())
+                    var dbb = FirebaseFirestore.getInstance()
+                    dbb = FirebaseFirestore.getInstance()
+                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                        .document("Orders").collection("OrderDetailList").document(order_no.toString())
+                        .update(mapOf("authvendorid" to authVendorId.toString()))
+
+                    val orderfrag = orderFragmentVendor()
+                    val bundle = Bundle()
+                    bundle.putString("userid",authUserId)
+                    orderfrag.arguments = bundle
+
+                    transaction.replace(R.id.frameLayout, orderfrag)
                 }
                 if (transaction != null) {
                     transaction.disallowAddToBackStack()
@@ -113,30 +157,36 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
         return v
     }
 
+    fun assign_vendor()
+    {
+        Log.e("entered", "yayay")
+        var db = FirebaseFirestore.getInstance()
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+            .document("Vendors").collection(authVendorId)
+            .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_item)
+
+        var index = 0
+        while(index!=itemlist.size)
+        {
+            db = FirebaseFirestore.getInstance()
+            itemlist[index].ItemName?.let { it1 ->
+                db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    .document("Vendors").collection(authVendorId)
+                    .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
+                    .document(it1).set(itemlist[index])
+
+            }
+            ++index
+        }
+    }
+
     //dialog view is ready
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-//        // create AgeItemSelectListener to listen to click event on items from the RecyclerView Adapter
-//        val listenerAge:AgeItemSelectListener = object : AgeItemSelectListener {
-//            override fun itemClicked(ageGroup: AgeGroupModel, position: Int) {
-//                //when item in adapter is clicked, show selected age in an AlertDialog
-//                showSelectedItemAlert(ageGroup,position)
-//            }
-//        };
-
-
     }
 
-//    private fun showSelectedItemAlert(ageGroup: AgeGroupModel, position: Int){
-//        val builder = AlertDialog.Builder(requireActivity())
-//        builder.setMessage(ageGroup.label+" you are")
-//            .setCancelable(false)
-//            .setPositiveButton("ok") { dialog, id -> dismiss()}
-//        val alert = builder.create()
-//        alert.show()}
+
 
 }
 

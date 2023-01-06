@@ -42,6 +42,7 @@ class homeFragment : Fragment() {
     private lateinit var db : FirebaseFirestore
     private lateinit var setdb : FirebaseFirestore
     private lateinit var usersetdb : FirebaseFirestore
+    private lateinit var vendorsetdb : FirebaseFirestore
     public lateinit var item_list : ArrayList<Item_Info>
     private lateinit var item_adapter : itemAdapter
 
@@ -91,9 +92,9 @@ class homeFragment : Fragment() {
         item_adapter = context?.let { itemAdapter(item_list, it, item_check_list) }!!
         recycler_item.adapter = item_adapter
 
-        textname.setOnClickListener {
-            Toast.makeText(context, "State 1 : "+item_check_list[0] + " and " + "State 2 : "+item_check_list[1], Toast.LENGTH_SHORT).show();
-        }
+//        textname.setOnClickListener {
+//            Toast.makeText(context, "State 1 : "+item_check_list[0] + " and " + "State 2 : "+item_check_list[1], Toast.LENGTH_SHORT).show();
+//        }
 
 
         order_info = Order_Info()
@@ -104,6 +105,8 @@ class homeFragment : Fragment() {
         order_info.UserName = "Soumen Paul"
         order_info.UserPhone = "10122234"
         order_info.OrderDate = "08/11/2022"
+        order_info.authuserid = authUserId.toString()
+        order_info.authvendorid = "vendoruserid"
 
         order_btn.setOnClickListener {
             order_info.OrderNo = (0..1000000).random()
@@ -142,14 +145,10 @@ class homeFragment : Fragment() {
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
-        setdb.collection("test").document("UttarPradesh").collection("201204")
+        setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
-        //Mapping the usersetdb object to insert data
-        usersetdb = FirebaseFirestore.getInstance()
-        usersetdb.collection("test").document("UttarPradesh").collection("201204")
-            .document("Users").collection(authUserId)
-            .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
+
 
         Toast.makeText(context, "Order made", Toast.LENGTH_SHORT).show()
 
@@ -165,35 +164,11 @@ class homeFragment : Fragment() {
                 test += item_list[index].ItemName + ","
                 order_item_list.add(item_list[index])
 
-//                usersetdb = FirebaseFirestore.getInstance()
-//                item_list[index].ItemName?.let { it1 ->
-//                    usersetdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-//                        .document("Users").collection(authUserId)
-//                        .document("Orders").collection(order_no.toString()).document(order_no.toString()).collection("OrderItemList")
-//                        .document(it1).set(item_list[index])
-
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    setdb.collection("test").document("UttarPradesh").collection("201204")
+                    setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
                         .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
-                }
-
-
-            }
-
-            if(item_check_list[index]==true)
-            {
-                test += item_list[index].ItemName + ","
-                //order_item_list.add(item_list[index])
-
-                usersetdb = FirebaseFirestore.getInstance()
-                item_list[index].ItemName?.let { it1 ->
-                    usersetdb.collection("test").document("UttarPradesh").collection("201204")
-                        .document("Users").collection(authUserId)
-                        .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
-                        .document(it1).set(item_list[index])
-
                 }
 
 
@@ -211,11 +186,6 @@ class homeFragment : Fragment() {
         intent.putExtra("Username", order_info.UserName)
         startActivity(intent)
         requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-
-//        val transaction = activity?.supportFragmentManager?.beginTransaction()
-//        transaction?.replace(R.id.frameLayout, homeFragment())
-//        transaction?.disallowAddToBackStack()
-//        transaction?.commit()
     }
 
     private fun EventChangeListener()

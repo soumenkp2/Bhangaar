@@ -35,6 +35,7 @@ class homeFragmentVendor : Fragment() {
     private lateinit var orderDetailList : ArrayList<Order_Info>
     private lateinit var db : FirebaseFirestore
     private lateinit var orderDetailsAdapter: orderRequestAdapter
+    private lateinit var authVendorId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,9 @@ class homeFragmentVendor : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_home_vendor, container, false)
 
+        val bundle = arguments
+        authVendorId = bundle!!.getString("userid").toString()
+
         //Initializing objects
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
         order_request_recycler.layoutManager = LinearLayoutManager(context)
@@ -59,7 +63,7 @@ class homeFragmentVendor : Fragment() {
 
         fetchOrderDetailData()
 
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed") }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         return view
@@ -67,7 +71,7 @@ class homeFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData() {
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

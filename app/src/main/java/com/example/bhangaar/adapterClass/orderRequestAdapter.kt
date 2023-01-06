@@ -23,13 +23,16 @@ import com.example.bhangaar.dataClass.Order_Info
 import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.orderTransactionDialog
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import java.util.*
 
 
-class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
+class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
 
     private lateinit var itemlist :ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
     private lateinit var order_no : String
+    private lateinit var authuserid : String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): itemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.custom_order_request,parent,false)
@@ -39,6 +42,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
     override fun onBindViewHolder(holder: itemViewHolder, position: Int)
     {
         val order_item : Order_Info = order_list[position]
+
+        authuserid = order_item.authuserid.toString()
 
         holder.order_no.text = order_item.OrderNo.toString()
         holder.order_status.text = order_item.OrderStatus.toString()
@@ -106,7 +111,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -144,14 +149,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), "accepted")
+            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted")
             alertDialog.show(fm, "fragment_alert")
-
-
-//            val db = FirebaseFirestore.getInstance()
-//            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-//                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
-//                .update(mapOf("orderStatus" to holder.order_status.text))
 
         }
 
@@ -160,15 +159,9 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), "completed")
+            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed")
             alertDialog.show(fm, "fragment_alert")
 
-//            val db = FirebaseFirestore.getInstance()
-//            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-//                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
-//                .update(mapOf("orderStatus" to holder.order_status.text))
-//
-//            notifyDataSetChanged()
         }
 
         holder.cancel_card.setOnClickListener {
@@ -176,13 +169,9 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), "cancelled")
+            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled")
             alertDialog.show(fm, "fragment_alert")
 
-//            val db = FirebaseFirestore.getInstance()
-//            db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
-//                .document("Orders").collection("OrderDetailList").document(holder.order_no.text.toString())
-//                .update(mapOf("orderStatus" to holder.order_status.text))
         }
 
 
