@@ -17,10 +17,12 @@ import com.example.bhangaar.R
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import java.util.*
 
 class orderDetailsAdapter(private val userid : String, private val order_list : ArrayList<Order_Info>, private val context: Context) : RecyclerView.Adapter<orderDetailsAdapter.itemViewHolder>() {
 
-    private lateinit var itemlist :ArrayList<Item_Info>
+    private lateinit var itemlist : ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
     private lateinit var order_no : String
 
