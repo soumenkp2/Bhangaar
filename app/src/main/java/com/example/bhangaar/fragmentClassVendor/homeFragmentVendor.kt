@@ -37,6 +37,14 @@ class homeFragmentVendor : Fragment() {
     private lateinit var orderDetailsAdapter: orderRequestAdapter
     private lateinit var authVendorId : String
 
+    private var lat : String = "s"
+    private var long : String= "s"
+    private var address : String= "s"
+    private var state : String = "s"
+    private var postal : String = "s"
+    private var name : String = "s"
+    private var role : String = "s"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,6 +62,15 @@ class homeFragmentVendor : Fragment() {
 
         val bundle = arguments
         authVendorId = bundle!!.getString("userid").toString()
+        lat = bundle.getString("lat").toString()
+        long = bundle.getString("long").toString()
+        state = bundle.getString("state").toString()
+        postal = bundle.getString("postal").toString()
+        name = bundle.getString("name").toString()
+        address = bundle.getString("address").toString()
+        role = bundle.getString("role").toString()
+
+        Toast.makeText(context, authVendorId + state + postal , Toast.LENGTH_SHORT).show()
 
         //Initializing objects
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
@@ -63,7 +80,7 @@ class homeFragmentVendor : Fragment() {
 
         fetchOrderDetailData()
 
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId) }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId, state, postal) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         return view
@@ -71,7 +88,7 @@ class homeFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

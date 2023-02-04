@@ -9,6 +9,7 @@ import android.widget.TextView
 class OnBoardingScreen : AppCompatActivity() {
 
     private lateinit var register_btn : TextView
+    private lateinit var role : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,9 +17,12 @@ class OnBoardingScreen : AppCompatActivity() {
 
         init();
 
+        role = intent.extras?.get("role").toString()
+
         register_btn.setOnClickListener(
             View.OnClickListener {
-                val intent = Intent(this@OnBoardingScreen, Selection:: class.java);
+                val intent = Intent(this@OnBoardingScreen, SignUp:: class.java);
+                intent.putExtra("role",role)
                 startActivity(intent);
             }
         )

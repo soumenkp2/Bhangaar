@@ -48,6 +48,14 @@ class orderFragmentVendor : Fragment() {
 
     private lateinit var authVendorId : String
 
+    private var lat : String = "s"
+    private var long : String= "s"
+    private var address : String= "s"
+    private var state : String = "s"
+    private var postal : String = "s"
+    private var name : String = "s"
+    private var role : String = "s"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -65,6 +73,13 @@ class orderFragmentVendor : Fragment() {
 
         val bundle = arguments
         authVendorId = bundle!!.getString("userid").toString()
+        lat = bundle.getString("lat").toString()
+        long = bundle.getString("long").toString()
+        state = bundle.getString("state").toString()
+        postal = bundle.getString("postal").toString()
+        name = bundle.getString("name").toString()
+        address = bundle.getString("address").toString()
+        role = bundle.getString("role").toString()
 
         //Initializing objects
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
@@ -77,7 +92,7 @@ class orderFragmentVendor : Fragment() {
         orderDetailList = arrayListOf()
 
         fetchOrderDetailData_Live()
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted", authVendorId) }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted", authVendorId,state,postal) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
@@ -90,7 +105,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Live()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Accepted", authVendorId) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Accepted", authVendorId,state,postal) }!!
             order_request_recycler.adapter = orderDetailsAdapter
 
         }
@@ -101,7 +116,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Completed()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Completed", authVendorId) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Completed", authVendorId,state,postal) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 
@@ -111,7 +126,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Cancelled()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled", authVendorId) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled", authVendorId,state,postal) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 
@@ -120,7 +135,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Live() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -157,7 +172,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Completed() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -194,7 +209,7 @@ class orderFragmentVendor : Fragment() {
 
     private fun fetchOrderDetailData_Cancelled() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

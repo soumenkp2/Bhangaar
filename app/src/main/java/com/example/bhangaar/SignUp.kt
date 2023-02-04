@@ -128,7 +128,7 @@ class SignUp : AppCompatActivity() {
 
 
                     val intent : Intent
-                    intent = Intent(this, MainActivity::class.java)
+                    intent = Intent(this, personDetails::class.java)
                     intent.putExtra("role",role)
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     startActivity(intent)
@@ -188,8 +188,10 @@ class SignUp : AppCompatActivity() {
 
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
+                Log.v("request", "exceeded")
             } else if (e is FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
+                Log.v("sms", "exceeded")
             }
 
             // Show a message and update the UI
@@ -215,7 +217,7 @@ class SignUp : AppCompatActivity() {
             OTP = verificationId
             resendToken = token
 
-            Toast.makeText(applicationContext,"OTP : " + verificationId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext,"Thanks for your choosing Bhangaar! Your OTP : " + verificationId, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -287,13 +289,14 @@ class SignUp : AppCompatActivity() {
     //Method to check if the user is already logged in or not
     override fun onStart() {
         super.onStart()
-        if(auth.currentUser != null)
-        {
-            val intent : Intent
-            intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("role",role)
-            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
-            startActivity(intent)
-        }
+//        if(auth.currentUser != null)
+//        {
+//            Log.v("ss", "ssfekfe");
+//            val intent : Intent
+//            intent = Intent(this, MainActivity::class.java)
+//            intent.putExtra("role",role)
+//            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
+//            startActivity(intent)
+//        }
     }
 }

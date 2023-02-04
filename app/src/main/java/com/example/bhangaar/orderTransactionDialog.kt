@@ -20,7 +20,7 @@ import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
-class orderTransactionDialog(private val scr : String, private val order_no : String, private var authUserId : String, private var authVendorId : String, private var order_item : Order_Info, private var itemlist : ArrayList<Item_Info>, private var action : String) : DialogFragment() {
+class orderTransactionDialog(private val scr : String, private val order_no : String, private var authUserId : String, private var authVendorId : String, private var order_item : Order_Info, private var itemlist : ArrayList<Item_Info>, private var action : String, private val state : String, private val postal : String) : DialogFragment() {
 
     private lateinit var yesbtn : ImageView
     private lateinit var nobtn : ImageView
@@ -54,18 +54,18 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    db.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Accepted"))
 
                     var dbb = FirebaseFirestore.getInstance()
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    dbb.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
                     val bundle = Bundle()
-                    bundle.putString("userid",authUserId)
+                    bundle.putString("userid",authVendorId)
                     homefrag.arguments = bundle
 
                     transaction.replace(R.id.frameLayout, homefrag)
@@ -86,20 +86,20 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    db.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Completed"))
 
                     var dbb = FirebaseFirestore.getInstance()
 
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    dbb.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
                     val orderfrag = orderFragmentVendor()
                     val bundle = Bundle()
-                    bundle.putString("userid",authUserId)
+                    bundle.putString("userid",authVendorId)
                     orderfrag.arguments = bundle
 
                     transaction.replace(R.id.frameLayout, orderfrag)
@@ -120,19 +120,27 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    db.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Cancelled"))
 
                     var dbb = FirebaseFirestore.getInstance()
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    dbb.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
                     val orderfrag = orderFragmentVendor()
                     val bundle = Bundle()
-                    bundle.putString("userid",authUserId)
+                    bundle.putString("userid",authVendorId)
+//                    bundle.putString("lat",lat)
+//                    bundle.putString("long",long)
+//                    bundle.putString("state",state)
+//                    bundle.putString("postal",postal)
+//                    bundle.putString("name",name)
+//                    bundle.putString("address",address)
+//                    bundle.putString("role",role)
+
                     orderfrag.arguments = bundle
 
                     transaction.replace(R.id.frameLayout, orderfrag)

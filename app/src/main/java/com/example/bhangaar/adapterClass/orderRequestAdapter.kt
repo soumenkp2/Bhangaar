@@ -27,7 +27,7 @@ import com.google.firebase.firestore.EventListener
 import java.util.*
 
 
-class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
+class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String, private val state : String, private val postal : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
 
     private lateinit var itemlist :ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
@@ -149,7 +149,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted")
+            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,postal)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -159,7 +159,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed")
+            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,postal)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -169,7 +169,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled")
+            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,postal)
             alertDialog.show(fm, "fragment_alert")
 
         }
