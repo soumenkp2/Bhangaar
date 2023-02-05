@@ -80,7 +80,7 @@ class homeFragmentVendor : Fragment() {
 
         fetchOrderDetailData()
 
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId, state, postal) }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId, state, postal, lat, long,name,address,role) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         return view

@@ -2,6 +2,8 @@ package com.example.bhangaar.adapterClass
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -27,7 +30,7 @@ import com.google.firebase.firestore.EventListener
 import java.util.*
 
 
-class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String, private val state : String, private val postal : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
+class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String, private val state : String, private val postal : String, private val lat : String, private val long : String, private val name : String, private val address : String, private val role : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
 
     private lateinit var itemlist :ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
@@ -94,6 +97,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
             holder.username.visibility = View.VISIBLE
             holder.order_list.visibility = View.VISIBLE
             holder.showcase_pic.visibility = View.GONE
+            holder.actions.visibility = View.VISIBLE
+            holder.user_address.visibility = View.VISIBLE
         }
 
         holder.up_arrow.setOnClickListener {
@@ -103,6 +108,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
             holder.username.visibility = View.GONE
             holder.order_list.visibility = View.GONE
             holder.showcase_pic.visibility = View.VISIBLE
+            holder.actions.visibility = View.GONE
+            holder.user_address.visibility = View.GONE
         }
 
         holder.order_list.layoutManager = LinearLayoutManager(context)
@@ -138,18 +145,28 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             })
 
-
         orderAdapter = context.let { orderAdapter(itemlist, it) }
         holder.order_list.adapter = orderAdapter
 
 
+        holder.user_location.setOnClickListener {
+            val uri = Uri.parse("http://maps.google.com/maps?saddr=$lat,$long &daddr=$lat,$long &dirflg=w")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
+
+        holder.user_phone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "1122334455"))
+            context.startActivity(intent)
+        }
 
         holder.accept_card.setOnClickListener {
             holder.order_status.text = "Accepted"
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,postal)
+            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,postal,lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -159,7 +176,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,postal)
+            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,postal,lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -169,7 +186,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,postal)
+            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,postal,lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -228,5 +245,10 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val showcase_pic : ImageView = itemView.findViewById(R.id.showcase_pic)
         val accept_linear : LinearLayout = itemView.findViewById(R.id.accept_linear)
         val progress_linear : LinearLayout = itemView.findViewById(R.id.progress_linear)
+        val actions : LinearLayout = itemView.findViewById(R.id.linearactions)
+        val user_location : ImageView = itemView.findViewById(R.id.user_location)
+        val user_phone : ImageView = itemView.findViewById(R.id.user_call)
+        val user_address : TextView = itemView.findViewById(R.id.address)
+
     }
 }

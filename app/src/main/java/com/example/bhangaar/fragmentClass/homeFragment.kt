@@ -2,6 +2,7 @@ package com.example.bhangaar.fragmentClass
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,8 @@ import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 
 
@@ -55,6 +59,15 @@ class homeFragment : Fragment() {
 
     var authUserId = "Soumen"
 
+    private var lat : String = "s"
+    private var long : String= "s"
+    private var address : String= "s"
+    private var state : String = "s"
+    private var postal : String = "s"
+    private var name : String = "s"
+    private var role : String = "s"
+    private var phone : String = "s"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +77,7 @@ class homeFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,6 +87,14 @@ class homeFragment : Fragment() {
 
         val bundle = arguments
         authUserId = bundle!!.getString("userid").toString()
+        lat = bundle.getString("lat").toString()
+        long = bundle.getString("long").toString()
+        state = bundle.getString("state").toString()
+        postal = bundle.getString("postal").toString()
+        name = bundle.getString("name").toString()
+        address = bundle.getString("address").toString()
+        role = bundle.getString("role").toString()
+        phone = bundle.getString("phone").toString()
 
         //Toast.makeText(context, authUserId, Toast.LENGTH_SHORT).show();
 
@@ -101,20 +123,35 @@ class homeFragment : Fragment() {
         order_info.OrderNo = (0..1000000).random()
         //order_info.OrderNo = 123456
         order_info.OrderStatus = "Confirmed"
-        order_info.UserLocation = "201204"
-        order_info.UserName = "Soumen Paul"
-        order_info.UserPhone = "10122234"
-        order_info.OrderDate = "08/11/2022"
+        order_info.UserLocation = postal
+        order_info.UserName = name
+        order_info.UserPhone = phone
+        order_info.OrderDate = LocalDate.now().toString()
         order_info.authuserid = authUserId.toString()
         order_info.authvendorid = "vendoruserid"
+        order_info.latitude = lat
+        order_info.longitude = long
+        order_info.userAddress = address
+        order_info.userState = state
+        order_info.startTime = LocalTime.now().toString()
+        order_info.endTime = "Will be completed soon"
 
         order_btn.setOnClickListener {
             order_info.OrderNo = (0..1000000).random()
             SetDataEventListener()
 
+            //Toast.makeText(context,order_info.startTime + order_info.endTime, Toast.LENGTH_SHORT).show()
+
             val bundle = Bundle()
             bundle.putString("userid",authUserId)
             bundle.putString("role","user")
+            bundle.putString("name",name)
+            bundle.putString("state",state)
+            bundle.putString("lat",lat)
+            bundle.putString("long",long)
+            bundle.putString("address",address)
+            bundle.putString("postal",postal)
+            bundle.putString("phone",phone)
             val homeFrag = homeFragment()
             homeFrag.arguments = bundle
 
@@ -145,7 +182,7 @@ class homeFragment : Fragment() {
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
-        setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        setdb.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
 
@@ -166,7 +203,7 @@ class homeFragment : Fragment() {
 
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    setdb.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                    setdb.collection("BhangaarItems").document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
                 }
@@ -191,7 +228,7 @@ class homeFragment : Fragment() {
     private fun EventChangeListener()
     {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204").document("Items")
+        db.collection("BhangaarItems").document(state).collection(postal).document("Items")
             .collection("ItemList").
         //db.collection("test").
                 addSnapshotListener(object : EventListener<QuerySnapshot>

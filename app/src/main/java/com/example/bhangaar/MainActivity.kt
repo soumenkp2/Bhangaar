@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private var state : String = "s"
     private var postal : String = "s"
     private var name : String = "s"
+    private var phone : String = "s"
 
 
 
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         postal = intent.extras?.get("postal").toString()
         address = intent.extras?.get("address").toString()
         name = intent.extras?.get("name").toString()
+        phone = intent.extras?.get("phone").toString()
 
 
         Toast.makeText(applicationContext, authUserId + state + postal , Toast.LENGTH_SHORT).show()
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
             bundle.putString("long",long)
             bundle.putString("address",address)
             bundle.putString("postal",postal)
+            bundle.putString("phone",phone)
             homeFrag.arguments = bundle
             transaction.replace(R.id.frameLayout, homeFrag)
             transaction.commit()
@@ -120,6 +123,7 @@ class MainActivity : AppCompatActivity() {
             bundle.putString("long",long)
             bundle.putString("address",address)
             bundle.putString("postal",postal)
+            bundle.putString("phone",phone)
             homeFrag.arguments = bundle
             transaction.replace(R.id.frameLayout, homeFrag)
             transaction.commit()
@@ -141,6 +145,7 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString("long",long)
                 bundle.putString("address",address)
                 bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
                 homeFrag.arguments = bundle
                 transaction.replace(R.id.frameLayout, homeFrag)
                 transaction.commit()
@@ -157,6 +162,7 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString("long",long)
                 bundle.putString("address",address)
                 bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
                 homeFrag.arguments = bundle
                 transaction.replace(R.id.frameLayout, homeFrag)
                 transaction.commit()
@@ -179,6 +185,7 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString("long",long)
                 bundle.putString("address",address)
                 bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
                 orderFrag.arguments = bundle
                 transaction.replace(R.id.frameLayout, orderFrag)
                 transaction.commit()
@@ -195,6 +202,7 @@ class MainActivity : AppCompatActivity() {
                 bundle.putString("long",long)
                 bundle.putString("address",address)
                 bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
                 orderFrag.arguments = bundle
                 transaction.replace(R.id.frameLayout, orderFrag)
                 transaction.commit()

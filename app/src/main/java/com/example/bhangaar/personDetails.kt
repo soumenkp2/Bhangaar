@@ -45,6 +45,7 @@ class personDetails : AppCompatActivity() {
 
     private lateinit var role : String
     private lateinit var userid : String
+    private var phone : String = "13939"
 
 
 
@@ -67,6 +68,7 @@ class personDetails : AppCompatActivity() {
 
         userid = intent.extras?.get("userid").toString()
         role = intent.extras?.get("role").toString()
+        phone = intent.extras?.get("phone").toString()
 
         next_btn.setOnClickListener {
             if(check_txt())
@@ -81,11 +83,16 @@ class personDetails : AppCompatActivity() {
                 intent.putExtra("address",edit_address.text.toString());
                 intent.putExtra("lat",lat);
                 intent.putExtra("long",long);
+                intent.putExtra("phone",phone);
                 startActivity(intent)
             }
             else{
                 Toast.makeText(applicationContext,"Fill all the details", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        fetch_btn.setOnClickListener {
+            getLocation()
         }
 
     }
@@ -138,30 +145,7 @@ class personDetails : AppCompatActivity() {
                     //getLocation()
                     Log.v("apun ka location found", lat+long+state+postal+address)
                 }
-                //Log.v("apun ka location found", lat+long)
 
-//                Log.v("apun ka location", lat+long+country+locality+address)
-//                mFusedLocationClient.lastLocation
-//                    .addOnCompleteListener(this) { task ->
-//                    val location: Location? = task.result
-//                    if (location != null) {
-//                        Log.v("apun ka location h", lat+long+country+locality+address)
-//                        val geocoder = Geocoder(this, Locale.getDefault())
-//                        val list: List<Address> =
-//                            geocoder.getFromLocation(location.latitude, location.longitude, 1)
-//                            apply {
-//                            lat = "Latitude\n${list[0].latitude}"
-//                            long = "Longitude\n${list[0].longitude}"
-//                            country = "Country Name\n${list[0].countryName}"
-//                            locality = "Locality\n${list[0].postalCode}"
-//                            address = "Address\n${list[0].getAddressLine(0)}"
-//                        }
-//
-//                        //dialog_box.visibility = View.INVISIBLE
-//                        Toast.makeText(applicationContext, lat+long+country+locality+address, Toast.LENGTH_SHORT).show()
-//                        Log.v("apun ka location f", lat+long+country+locality+address)
-//                    }
-//                }
             } else {
                 Toast.makeText(this, "Please turn on location", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)

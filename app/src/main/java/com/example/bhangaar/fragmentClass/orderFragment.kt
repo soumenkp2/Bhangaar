@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.adapterClass.orderDetailsAdapter
+import com.example.bhangaar.adapterClass.orderRequestAdapter
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
 import com.google.firebase.firestore.*
@@ -38,6 +41,19 @@ class orderFragment : Fragment() {
     private lateinit var userid : String
     private lateinit var orderDetailsAdapter: orderDetailsAdapter
 
+    private lateinit var livebtn : TextView
+    private lateinit var acceptbtn : TextView
+    private lateinit var finishbtn : TextView
+
+    private var lat : String = "s"
+    private var long : String= "s"
+    private var address : String= "s"
+    private var state : String = "s"
+    private var postal : String = "s"
+    private var name : String = "s"
+    private var role : String = "s"
+    private var phone : String = "s"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -56,25 +72,73 @@ class orderFragment : Fragment() {
         //Fetching user id value via bundles from MainActivity
         val bundle = arguments
         userid = bundle!!.getString("userid").toString()
+        lat = bundle.getString("lat").toString()
+        long = bundle.getString("long").toString()
+        state = bundle.getString("state").toString()
+        postal = bundle.getString("postal").toString()
+        name = bundle.getString("name").toString()
+        address = bundle.getString("address").toString()
+        role = bundle.getString("role").toString()
+        phone = bundle.getString("phone").toString()
 
         //Initializing objects
         order_detail_recycler = view.findViewById(R.id.orderdetail_recycler)
+        livebtn = view.findViewById(R.id.livebtn)
+        acceptbtn = view.findViewById(R.id.acceptbtn)
+        finishbtn = view.findViewById(R.id.finishbtn)
+
         order_detail_recycler.layoutManager = LinearLayoutManager(context)
         order_detail_recycler.hasFixedSize()
         orderDetailList = arrayListOf()
 
-        fetchOrderDetailData()
+        fetchOrderDetailData_live()
 
-        orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it) }!!
+        orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal) }!!
         order_detail_recycler.adapter = orderDetailsAdapter
+
+        livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
+        acceptbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+        finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+
+
+        livebtn.setOnClickListener {
+            livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
+            acceptbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            orderDetailList = arrayListOf()
+            fetchOrderDetailData_live()
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal) }!!
+            order_detail_recycler.adapter = orderDetailsAdapter
+
+        }
+
+        acceptbtn.setOnClickListener {
+            livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            acceptbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
+            finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            orderDetailList = arrayListOf()
+            fetchOrderDetailData_accepted()
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Accepted", state, postal) }!!
+            order_detail_recycler.adapter = orderDetailsAdapter
+        }
+
+        finishbtn.setOnClickListener {
+            livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            acceptbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
+            finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
+            orderDetailList = arrayListOf()
+            fetchOrderDetailData_Finished()
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Finished", state, postal) }!!
+            order_detail_recycler.adapter = orderDetailsAdapter
+        }
 
         return view
     }
 
-    private fun fetchOrderDetailData() {
+    private fun fetchOrderDetailData_live() {
         db = FirebaseFirestore.getInstance()
-        db.collection("test").document("UttarPradesh").collection("201204").document("Users")
-            .collection(userid).document("Orders").collection("OrderDetailList").
+        db.collection("BhangaarItems").document(state).collection(postal)
+            .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
                 @SuppressLint("NotifyDataSetChanged")
@@ -89,7 +153,85 @@ class orderFragment : Fragment() {
                     {
                         if(dc.type == DocumentChange.Type.ADDED)
                         {
-                            orderDetailList.add(dc.document.toObject(Order_Info::class.java))
+                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                            if(order_item.OrderStatus.equals("Confirmed") && order_item.authuserid.equals(userid))
+                            {
+                                orderDetailList.add(order_item)
+                            }
+                        }
+                    }
+
+                    orderDetailsAdapter.notifyDataSetChanged()
+
+                }
+
+
+            })
+
+    }
+
+    private fun fetchOrderDetailData_accepted() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("BhangaarItems").document(state).collection(postal)
+            .document("Orders").collection("OrderDetailList").
+            addSnapshotListener(object : EventListener<QuerySnapshot>
+            {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                    if(p1!=null)
+                    {
+                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                        Log.e(p1.toString(),"Error Message")
+                    }
+
+                    for(dc : DocumentChange in p0?.documentChanges!!)
+                    {
+                        if(dc.type == DocumentChange.Type.ADDED)
+                        {
+                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                            if(order_item.OrderStatus.equals("Accepted") && order_item.authuserid.equals(userid))
+                            {
+                                orderDetailList.add(order_item)
+                            }
+                        }
+                    }
+
+                    orderDetailsAdapter.notifyDataSetChanged()
+
+                }
+
+
+            })
+
+    }
+
+    private fun fetchOrderDetailData_Finished() {
+        db = FirebaseFirestore.getInstance()
+        db.collection("BhangaarItems").document(state).collection(postal)
+            .document("Orders").collection("OrderDetailList").
+            addSnapshotListener(object : EventListener<QuerySnapshot>
+            {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                    if(p1!=null)
+                    {
+                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                        Log.e(p1.toString(),"Error Message")
+                    }
+
+                    for(dc : DocumentChange in p0?.documentChanges!!)
+                    {
+                        if(dc.type == DocumentChange.Type.ADDED)
+                        {
+                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                            if((order_item.OrderStatus.equals("Completed") || order_item.OrderStatus.equals("Cancelled"))&& order_item.authuserid.equals(userid))
+                            {
+                                orderDetailList.add(order_item)
+                            }
+
                         }
                     }
 

@@ -91,6 +91,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/order_no" />
 
+            <LinearLayout
+                android:id="@+id/linearactions"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/user_location"
+                    android:padding="5dp"
+                    android:src="@drawable/order" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/user_call"
+                    android:padding="5dp"
+                    android:src="@drawable/order" />
+
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
@@ -130,8 +159,24 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username"
+                app:layout_constraintTop_toBottomOf="@+id/linearactions"
                 app:layout_constraintVertical_bias="0.0" />
+
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Address"
+                android:textColor="@color/teal_700"
+                android:textSize="22sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/accept_linear"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintVertical_bias="0.166"
+                tools:layout_editor_absoluteX="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,7 +188,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintTop_toBottomOf="@+id/address"
                 app:layout_constraintVertical_bias="1.0">
 
                 <androidx.cardview.widget.CardView

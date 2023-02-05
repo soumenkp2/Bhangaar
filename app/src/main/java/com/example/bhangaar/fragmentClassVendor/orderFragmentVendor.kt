@@ -92,7 +92,7 @@ class orderFragmentVendor : Fragment() {
         orderDetailList = arrayListOf()
 
         fetchOrderDetailData_Live()
-        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted", authVendorId,state,postal) }!!
+        orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Accepted", authVendorId,state,postal,lat, long,name,address,role) }!!
         order_request_recycler.adapter = orderDetailsAdapter
 
         livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
@@ -105,7 +105,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Live()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Accepted", authVendorId,state,postal) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Accepted", authVendorId,state,postal,lat, long,name,address,role) }!!
             order_request_recycler.adapter = orderDetailsAdapter
 
         }
@@ -116,7 +116,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Completed()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Completed", authVendorId,state,postal) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history","Completed", authVendorId,state,postal,lat, long,name,address,role) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 
@@ -126,7 +126,7 @@ class orderFragmentVendor : Fragment() {
             cancelbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Cancelled()
-            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled", authVendorId,state,postal) }!!
+            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "order_history", "Cancelled", authVendorId,state,postal,lat, long,name,address,role) }!!
             order_request_recycler.adapter = orderDetailsAdapter
         }
 

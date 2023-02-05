@@ -131,6 +131,7 @@ class SignUp : AppCompatActivity() {
                     intent = Intent(this, personDetails::class.java)
                     intent.putExtra("role",role)
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
+                    intent.putExtra("phone",number.toString())
                     startActivity(intent)
 
                     val user = task.result?.user
