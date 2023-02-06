@@ -70,7 +70,7 @@ class homeFragmentVendor : Fragment() {
         address = bundle.getString("address").toString()
         role = bundle.getString("role").toString()
 
-        Toast.makeText(context, authVendorId + state + postal , Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, authVendorId + state + postal , Toast.LENGTH_LONG).show()
 
         //Initializing objects
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)

@@ -107,7 +107,7 @@
                     android:layout_weight="1"
                     android:id="@+id/user_location"
                     android:padding="5dp"
-                    android:src="@drawable/order" />
+                    android:src="@drawable/map" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                     android:layout_weight="1"
                     android:id="@+id/user_call"
                     android:padding="5dp"
-                    android:src="@drawable/order" />
+                    android:src="@drawable/call" />
 
             </LinearLayout>
 
@@ -244,7 +244,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintTop_toBottomOf="@+id/address"
                 app:layout_constraintVertical_bias="1.0">
 
                 <androidx.cardview.widget.CardView

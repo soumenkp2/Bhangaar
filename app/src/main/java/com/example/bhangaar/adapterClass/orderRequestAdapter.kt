@@ -3,6 +3,7 @@ package com.example.bhangaar.adapterClass
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,16 +15,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
-import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.orderTransactionDialog
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -36,12 +34,15 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
     private lateinit var orderAdapter: orderAdapter
     private lateinit var order_no : String
     private lateinit var authuserid : String
+    
+    private var estimated_distance : Double = 0.0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): itemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.custom_order_request,parent,false)
         return itemViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: itemViewHolder, position: Int)
     {
         val order_item : Order_Info = order_list[position]
@@ -51,7 +52,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         holder.order_no.text = order_item.OrderNo.toString()
         holder.order_status.text = order_item.OrderStatus.toString()
         holder.username.text = order_item.UserName.toString()
-
+        holder.user_address.text = order_item.userAddress.toString()
         order_no = order_item.OrderNo.toString()
 
         if(screen == "home_vendor")
@@ -150,14 +151,14 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
 
         holder.user_location.setOnClickListener {
-            val uri = Uri.parse("http://maps.google.com/maps?saddr=$lat,$long &daddr=$lat,$long &dirflg=w")
+            val uri = Uri.parse("http://maps.google.com/maps?saddr=${order_item.latitude.toString()},${order_item.longitude.toString()} &daddr=$lat,$long &dirflg=w")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }
 
         holder.user_phone.setOnClickListener {
-            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "1122334455"))
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${order_item.UserPhone.toString()}"))
             context.startActivity(intent)
         }
 
@@ -190,9 +191,25 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
             alertDialog.show(fm, "fragment_alert")
 
         }
+        
+        estimated_distance = calculate_distance(order_item.latitude!!.toDouble(), order_item.longitude!!.toDouble(), lat.toDouble(), long.toDouble())
+        holder.distance.text = (estimated_distance/1000).toString().substring(0,4) + " km"
 
 
 
+    }
+
+    private fun calculate_distance(order_lat : Double, order_long : Double , vendor_lat : Double, vendor_long : Double): Double {
+        val startPoint = Location("locationA")
+        startPoint.setLatitude(vendor_lat)
+        startPoint.setLongitude(vendor_long)
+
+        val endPoint = Location("locationA")
+        endPoint.setLatitude(order_lat)
+        endPoint.setLongitude(order_long)
+
+        val distance: Float = startPoint.distanceTo(endPoint)
+        return distance.toDouble()
     }
 
     private fun fetchOrderItemData() {

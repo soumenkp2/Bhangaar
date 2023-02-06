@@ -41,12 +41,14 @@ class SignUp : AppCompatActivity() {
     private lateinit var otp6 : EditText
 
     private lateinit var role : String
+    private lateinit var screen : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
         role = intent.extras?.get("role").toString()
+        screen = intent.extras?.get("screen").toString()
 
         init()
 
@@ -132,6 +134,7 @@ class SignUp : AppCompatActivity() {
                     intent.putExtra("role",role)
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     intent.putExtra("phone",number.toString())
+                    intent.putExtra("screen",screen)
                     startActivity(intent)
 
                     val user = task.result?.user
@@ -290,14 +293,17 @@ class SignUp : AppCompatActivity() {
     //Method to check if the user is already logged in or not
     override fun onStart() {
         super.onStart()
-//        if(auth.currentUser != null)
-//        {
-//            Log.v("ss", "ssfekfe");
-//            val intent : Intent
-//            intent = Intent(this, MainActivity::class.java)
-//            intent.putExtra("role",role)
-//            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
-//            startActivity(intent)
-//        }
+        if(auth.currentUser != null)
+        {
+            Log.v("ss", "ssfekfe");
+            val intent : Intent
+            intent = Intent(this, personDetails::class.java)
+            intent.putExtra("role",role)
+            intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
+            intent.putExtra("phone",FirebaseAuth.getInstance().currentUser?.phoneNumber.toString())
+            intent.putExtra("screen","signin")
+            Toast.makeText(applicationContext,FirebaseAuth.getInstance().currentUser?.uid.toString(),Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
     }
 }

@@ -18,7 +18,7 @@ class Selection : AppCompatActivity() {
         usercard.setOnClickListener(
             View.OnClickListener {
                 val intent = Intent(this@Selection, OnBoardingScreen:: class.java);
-                intent.putExtra("role","user")
+                intent.putExtra("role","Users")
                 startActivity(intent);
             }
         )
@@ -26,7 +26,7 @@ class Selection : AppCompatActivity() {
         vendorcard.setOnClickListener(
             View.OnClickListener {
                 val intent = Intent(this@Selection, OnBoardingScreen:: class.java);
-                intent.putExtra("role","vendor")
+                intent.putExtra("role","Vendors")
                 startActivity(intent);
             }
         )

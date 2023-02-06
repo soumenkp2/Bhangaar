@@ -17,10 +17,14 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.example.bhangaar.dataClass.Order_Info
+import com.example.bhangaar.dataClass.Person_Info
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import java.util.*
 
 class personDetails : AppCompatActivity() {
@@ -46,10 +50,7 @@ class personDetails : AppCompatActivity() {
     private lateinit var role : String
     private lateinit var userid : String
     private var phone : String = "13939"
-
-
-
-
+    private lateinit var screen : String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,18 +70,101 @@ class personDetails : AppCompatActivity() {
         userid = intent.extras?.get("userid").toString()
         role = intent.extras?.get("role").toString()
         phone = intent.extras?.get("phone").toString()
+        screen = intent.extras?.get("screen").toString()
 
+        Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
+
+
+        //Signin fetch from Users/Vendors
+        if(screen.equals("signin"))
+        {
+
+            var person_info : Person_Info = Person_Info()
+            val db = FirebaseFirestore.getInstance()
+            db.collection("BhangaarItems")
+                .document(role).collection(userid).
+                addSnapshotListener(object : EventListener<QuerySnapshot>
+                {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                        if(p1!=null)
+                        {
+                            Toast.makeText(applicationContext, p1.toString(), Toast.LENGTH_SHORT).show()
+                            Log.e(p1.toString(),"Error Message")
+                        }
+
+                        for(dc : DocumentChange in p0?.documentChanges!!)
+                        {
+                            Toast.makeText(applicationContext,userid+"OYYYY",Toast.LENGTH_SHORT).show()
+                            if(dc.type == DocumentChange.Type.ADDED)
+                            {
+                                val item : Person_Info = dc.document.toObject(Person_Info::class.java)
+                                if(item.userid.equals(userid))
+                                {
+                                    Toast.makeText(applicationContext,"oyoy",Toast.LENGTH_SHORT).show()
+                                    person_info = item
+
+                                    name = person_info.name.toString()
+                                    postal = person_info.postal.toString()
+                                    state = person_info.state.toString()
+                                    address = person_info.address.toString()
+                                    lat = person_info.latitude.toString()
+                                    long = person_info.longitude.toString()
+
+                                    Toast.makeText(applicationContext, name+state+postal, Toast.LENGTH_SHORT).show()
+
+                                    val intent : Intent
+                                    intent = Intent(applicationContext, MainActivity::class.java)
+                                    intent.putExtra("role",role)
+                                    intent.putExtra("userid", userid)
+                                    intent.putExtra("name",name);
+                                    intent.putExtra("state",state);
+                                    intent.putExtra("postal",postal);
+                                    intent.putExtra("address",address);
+                                    intent.putExtra("lat",lat);
+                                    intent.putExtra("long",long);
+                                    intent.putExtra("phone",phone);
+                                    startActivity(intent)
+                                }
+                            }
+                        }
+
+                    }
+
+
+                }) // Fetched data OF Person Information
+
+        }
+
+
+        //Sign Up
         next_btn.setOnClickListener {
             if(check_txt())
             {
+                name = edit_name.text.toString()
+                postal = edit_postal.text.toString()
+                address = edit_address.text.toString()
+                state = edit_state.text.toString()
+
+                val person_info : Person_Info = Person_Info(edit_name.text.toString(),
+                    edit_postal.text.toString(),
+                    edit_state.text.toString(),
+                    edit_address.text.toString(),
+                    userid,phone,lat,long
+                    )
+
+                val setdb : FirebaseFirestore = FirebaseFirestore.getInstance()
+                setdb.collection("BhangaarItems").document(role).collection(userid)
+                    .document(userid).set(person_info)
+
                 val intent : Intent
                 intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("role",role)
                 intent.putExtra("userid", userid)
-                intent.putExtra("name",edit_name.text.toString());
-                intent.putExtra("state",edit_state.text.toString());
-                intent.putExtra("postal",edit_postal.text.toString());
-                intent.putExtra("address",edit_address.text.toString());
+                intent.putExtra("name",name);
+                intent.putExtra("state",state);
+                intent.putExtra("postal",postal);
+                intent.putExtra("address",address);
                 intent.putExtra("lat",lat);
                 intent.putExtra("long",long);
                 intent.putExtra("phone",phone);
@@ -172,7 +256,12 @@ class personDetails : AppCompatActivity() {
             ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
             ) == PackageManager.PERMISSION_GRANTED
+
         ) {
             return true
         }
@@ -184,7 +273,8 @@ class personDetails : AppCompatActivity() {
             this,
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CALL_PHONE
             ),
             permissionId
         )
