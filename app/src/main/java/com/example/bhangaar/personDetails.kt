@@ -57,6 +57,7 @@ class personDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person_details)
         init()
+        Log.v("personal", "ok")
         name = "s"
         state = "s"
         address = "s"
@@ -67,13 +68,14 @@ class personDetails : AppCompatActivity() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLocation()
 
+        name = intent.extras?.get("name").toString()
         userid = intent.extras?.get("userid").toString()
         role = intent.extras?.get("role").toString()
         phone = intent.extras?.get("phone").toString()
         screen = intent.extras?.get("screen").toString()
 
         Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
-
+        edit_name.setText(name.toString())
 
         //Signin fetch from Users/Vendors
         if(screen.equals("signin"))
@@ -146,10 +148,15 @@ class personDetails : AppCompatActivity() {
                 address = edit_address.text.toString()
                 state = edit_state.text.toString()
 
+                if(state.equals("Uttar Pradesh"))
+                {
+                    state = "UttarPradesh"
+                }
+
                 val person_info : Person_Info = Person_Info(edit_name.text.toString(),
-                    edit_postal.text.toString(),
-                    edit_state.text.toString(),
-                    edit_address.text.toString(),
+                    postal,
+                    state,
+                    address,
                     userid,phone,lat,long
                     )
 
@@ -159,6 +166,7 @@ class personDetails : AppCompatActivity() {
 
                 val intent : Intent
                 intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 intent.putExtra("role",role)
                 intent.putExtra("userid", userid)
                 intent.putExtra("name",name);

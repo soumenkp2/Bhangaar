@@ -1,29 +1,12 @@
 package com.example.bhangaar
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Dialog
-import android.app.ProgressDialog
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationManager
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
-import android.view.Gravity.apply
-import android.view.MenuItem
-import android.view.View
+import android.preference.PreferenceManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bhangaar.fragmentClass.homeFragment
 import com.example.bhangaar.fragmentClass.orderFragment
 import com.example.bhangaar.fragmentClass.profileFragment
@@ -31,14 +14,7 @@ import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.fragmentClassVendor.profileFragmentVendor
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
-import java.util.*
-import kotlin.coroutines.cancellation.CancellationException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -87,13 +63,18 @@ class MainActivity : AppCompatActivity() {
         phone = intent.extras?.get("phone").toString()
 
 
-        Toast.makeText(applicationContext, authUserId + state + postal , Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, authUserId + state + postal , Toast.LENGTH_SHORT).show()
 
 //        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 //        getLocation()
 
 
-        if(role == "user")
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = preferences.edit()
+        editor.putString("role", role)
+        editor.apply()
+
+        if(role == "Users")
         {
             val transaction = supportFragmentManager.beginTransaction()
             val homeFrag = homeFragment()
@@ -132,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
         homebtn.setOnClickListener {
             //Toast.makeText(applicationContext, lat+long+country+locality+address, Toast.LENGTH_SHORT).show()
-            if(role == "user")
+            if(role == "Users")
             {
                 val transaction = supportFragmentManager.beginTransaction()
                 val homeFrag = homeFragment()
@@ -172,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
         orderbtn.setOnClickListener {
 
-            if(role == "user")
+            if(role == "Users")
             {
                 val transaction = supportFragmentManager.beginTransaction()
                 val orderFrag = orderFragment()
@@ -212,16 +193,40 @@ class MainActivity : AppCompatActivity() {
 
         profilebtn.setOnClickListener {
 
-            if(role == "user")
+            if(role == "Users")
             {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, profileFragment())
+                val orderFrag = profileFragment()
+                val bundle = Bundle()
+                bundle.putString("userid",authUserId)
+                bundle.putString("role",role)
+                bundle.putString("name",name)
+                bundle.putString("state",state)
+                bundle.putString("lat",lat)
+                bundle.putString("long",long)
+                bundle.putString("address",address)
+                bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
+                orderFrag.arguments = bundle
+                transaction.replace(R.id.frameLayout, orderFrag)
                 transaction.commit()
             }
             else
             {
                 val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.frameLayout, profileFragmentVendor())
+                val orderFrag = profileFragmentVendor()
+                val bundle = Bundle()
+                bundle.putString("userid",authUserId)
+                bundle.putString("role",role)
+                bundle.putString("name",name)
+                bundle.putString("state",state)
+                bundle.putString("lat",lat)
+                bundle.putString("long",long)
+                bundle.putString("address",address)
+                bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
+                orderFrag.arguments = bundle
+                transaction.replace(R.id.frameLayout, orderFrag)
                 transaction.commit()
             }
 
@@ -240,6 +245,11 @@ class MainActivity : AppCompatActivity() {
         orderbtn = findViewById(R.id.ordersbtn)
         profilebtn = findViewById(R.id.profilebtn)
        // dialog_box = findViewById(R.id.pBar)
+    }
+
+    override fun onBackPressed() {
+        finish()
+        finishAffinity()
     }
 
 }

@@ -131,6 +131,7 @@ class SignUp : AppCompatActivity() {
 
                     val intent : Intent
                     intent = Intent(this, personDetails::class.java)
+                    intent.putExtra("name","")
                     intent.putExtra("role",role)
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     intent.putExtra("phone",number.toString())
@@ -293,7 +294,7 @@ class SignUp : AppCompatActivity() {
     //Method to check if the user is already logged in or not
     override fun onStart() {
         super.onStart()
-        if(auth.currentUser != null)
+        if(auth.currentUser != null && screen.toString()=="signin")
         {
             Log.v("ss", "ssfekfe");
             val intent : Intent

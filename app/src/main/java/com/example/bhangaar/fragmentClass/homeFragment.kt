@@ -237,7 +237,7 @@ class homeFragment : Fragment() {
                     override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
                         if(p1!=null)
                         {
-                            Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
                             Log.e(p1.toString(),"Error Message")
                         }
 

@@ -119,7 +119,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection("BhangaarItems").document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -151,7 +151,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
 
         holder.user_location.setOnClickListener {
-            val uri = Uri.parse("http://maps.google.com/maps?saddr=${order_item.latitude.toString()},${order_item.longitude.toString()} &daddr=$lat,$long &dirflg=w")
+            val uri = Uri.parse("http://maps.google.com/maps?saddr=${lat},${long} &daddr=${order_item.latitude.toString()},${order_item.longitude.toString()} &dirflg=w")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
@@ -193,7 +193,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         }
         
         estimated_distance = calculate_distance(order_item.latitude!!.toDouble(), order_item.longitude!!.toDouble(), lat.toDouble(), long.toDouble())
-        holder.distance.text = (estimated_distance/1000).toString().substring(0,4) + " km"
+        holder.distance.text = (estimated_distance/1000).toString().subSequence(0,3).toString() + " km"
 
 
 

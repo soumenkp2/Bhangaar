@@ -19,7 +19,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import java.util.*
 
-class orderDetailsAdapter(private var userid : String, private val order_list : ArrayList<Order_Info>, private val context: Context, private val category : String, private val state : String, private val postal : String) : RecyclerView.Adapter<orderDetailsAdapter.itemViewHolder>() {
+class orderDetailsAdapter(private var userid : String, private val order_list : ArrayList<Order_Info>, private val context: Context, private val category : String, private val state : String, private val postal : String, private val address: String) : RecyclerView.Adapter<orderDetailsAdapter.itemViewHolder>() {
 
     private lateinit var itemlist : ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
@@ -92,6 +92,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         holder.order_no.text = order_item.OrderNo.toString()
         holder.order_status.text = order_item.OrderStatus.toString()
         holder.username.text = order_item.UserName.toString()
+        holder.user_address.text = order_item.userAddress.toString()
 
         order_no = order_item.OrderNo.toString()
 
@@ -124,6 +125,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         holder.order_list.hasFixedSize()
 
         holder.accept_card.visibility = View.GONE
+//        holder.distance.visibility = View.GONE
 
         holder.order_no.setOnClickListener {
             holder.up_arrow.rotation = 0F
@@ -132,6 +134,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
             holder.username.visibility = View.VISIBLE
             holder.order_list.visibility = View.VISIBLE
             holder.showcase_pic.visibility = View.GONE
+            holder.user_address.visibility = View.VISIBLE
         }
 
         holder.up_arrow.setOnClickListener {
@@ -141,6 +144,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
             holder.username.visibility = View.GONE
             holder.order_list.visibility = View.GONE
             holder.showcase_pic.visibility = View.VISIBLE
+            holder.user_address.visibility = View.GONE
         }
 
         val itemlist :ArrayList<Item_Info> = arrayListOf()
@@ -202,6 +206,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         val showcase_pic : ImageView = itemView.findViewById(R.id.showcase_pic)
         val accept_linear : LinearLayout = itemView.findViewById(R.id.accept_linear)
         val progress_linear : LinearLayout = itemView.findViewById(R.id.progress_linear)
+        val user_address : TextView = itemView.findViewById(R.id.address)
 
     }
 }

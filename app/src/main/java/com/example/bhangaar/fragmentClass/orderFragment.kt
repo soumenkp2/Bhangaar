@@ -93,7 +93,7 @@ class orderFragment : Fragment() {
 
         fetchOrderDetailData_live()
 
-        orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal) }!!
+        orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal,address) }!!
         order_detail_recycler.adapter = orderDetailsAdapter
 
         livebtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
@@ -107,7 +107,7 @@ class orderFragment : Fragment() {
             finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_live()
-            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal) }!!
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Confirmed", state, postal, address) }!!
             order_detail_recycler.adapter = orderDetailsAdapter
 
         }
@@ -118,7 +118,7 @@ class orderFragment : Fragment() {
             finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_accepted()
-            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Accepted", state, postal) }!!
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Accepted", state, postal, address) }!!
             order_detail_recycler.adapter = orderDetailsAdapter
         }
 
@@ -128,7 +128,7 @@ class orderFragment : Fragment() {
             finishbtn.background = ContextCompat.getDrawable(requireContext(),R.drawable.primary_outline_dark)
             orderDetailList = arrayListOf()
             fetchOrderDetailData_Finished()
-            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Finished", state, postal) }!!
+            orderDetailsAdapter = context?.let { orderDetailsAdapter(userid, orderDetailList, it, "Finished", state, postal, address) }!!
             order_detail_recycler.adapter = orderDetailsAdapter
         }
 

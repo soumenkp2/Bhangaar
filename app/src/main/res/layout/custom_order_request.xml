@@ -127,7 +127,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center"
-                android:text="Distance - 2km"
+                android:text="Distance - 0km"
                 android:textColor="@color/teal_700"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
