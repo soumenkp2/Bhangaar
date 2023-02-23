@@ -101,6 +101,7 @@ class homeFragment : Fragment() {
         textname = view.findViewById(R.id.textname)
         order_btn = view.findViewById(R.id.make_order_btn)
 
+        textname.text = name.toString()
         recycler_item = view.findViewById(R.id.item_recycler)
         recycler_item.layoutManager = LinearLayoutManager(context)
         recycler_item.hasFixedSize()

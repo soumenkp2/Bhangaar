@@ -64,6 +64,7 @@
             android:background="@drawable/circular_outline_black"
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
+            android:visibility="gone"
             android:hint="Enter your name"
             android:padding="10dp"
             android:textSize="18sp" />
