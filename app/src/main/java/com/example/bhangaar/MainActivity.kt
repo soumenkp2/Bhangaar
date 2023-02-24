@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.bhangaar.fragmentClass.homeFragment
 import com.example.bhangaar.fragmentClass.orderFragment
 import com.example.bhangaar.fragmentClass.profileFragment
@@ -74,6 +75,10 @@ class MainActivity : AppCompatActivity() {
         editor.putString("role", role)
         editor.apply()
 
+        homebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.home_icon_primary));
+        orderbtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shopblack));
+        profilebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.userblack));
+
         if(role == "Users")
         {
             val transaction = supportFragmentManager.beginTransaction()
@@ -93,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             transaction.commit()
         }
         else{
+
             val transaction = supportFragmentManager.beginTransaction()
             val homeFrag = homeFragmentVendor()
             val bundle = Bundle()
@@ -112,6 +118,9 @@ class MainActivity : AppCompatActivity() {
 
 
         homebtn.setOnClickListener {
+            homebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.home_icon_primary));
+            orderbtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shopblack));
+            profilebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.userblack));
             //Toast.makeText(applicationContext, lat+long+country+locality+address, Toast.LENGTH_SHORT).show()
             if(role == "Users")
             {
@@ -153,6 +162,9 @@ class MainActivity : AppCompatActivity() {
 
         orderbtn.setOnClickListener {
 
+            homebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.homeblack));
+            orderbtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shopgreen));
+            profilebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.userblack));
             if(role == "Users")
             {
                 val transaction = supportFragmentManager.beginTransaction()
@@ -192,7 +204,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         profilebtn.setOnClickListener {
-
+            homebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.homeblack));
+            orderbtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shopblack));
+            profilebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.user));
             if(role == "Users")
             {
                 val transaction = supportFragmentManager.beginTransaction()

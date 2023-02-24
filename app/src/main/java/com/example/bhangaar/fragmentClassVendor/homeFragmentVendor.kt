@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,7 @@ class homeFragmentVendor : Fragment() {
     private lateinit var db : FirebaseFirestore
     private lateinit var orderDetailsAdapter: orderRequestAdapter
     private lateinit var authVendorId : String
+    private lateinit var textname : TextView
 
     private var lat : String = "s"
     private var long : String= "s"
@@ -70,9 +72,11 @@ class homeFragmentVendor : Fragment() {
         address = bundle.getString("address").toString()
         role = bundle.getString("role").toString()
 
-        Toast.makeText(context, authVendorId + state + postal , Toast.LENGTH_LONG).show()
+        //Toast.makeText(context, authVendorId + state + postal , Toast.LENGTH_LONG).show()
 
         //Initializing objects
+        textname = view.findViewById(R.id.textname)
+        textname.text = "Hello " + name.toString()
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
         order_request_recycler.layoutManager = LinearLayoutManager(context)
         order_request_recycler.hasFixedSize()
@@ -96,7 +100,7 @@ class homeFragmentVendor : Fragment() {
                 override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
                     if(p1!=null)
                     {
-                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
                         Log.e(p1.toString(),"Error Message")
                     }
 
