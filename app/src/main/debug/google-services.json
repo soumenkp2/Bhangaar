@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "492542810416",
+    "project_id": "bhangaar-b0ca3",
+    "storage_bucket": "bhangaar-b0ca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492542810416:android:5b2a7f490887fa2eba90f5",
+        "android_client_info": {
+          "package_name": "com.example.bhangaar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492542810416-29thbm12nhepa3crv9apqlbvfhefa5md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "1f628966bd5192d2be12404f49f1cf5dac672348"
+          }
+        },
+        {
+          "client_id": "492542810416-frvkko33niv0n8hueuuhc3h5sc6gt5ak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "93bafa554d5dc8b0fcb5b354930271ac9f5eccb2"
+          }
+        },
+        {
+          "client_id": "492542810416-jsq270j5b8k0bcugqo2s3dn6558vbkbs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "641480353fe4d0cfa2f3df5ccbba12e166d2fc27"
+          }
+        },
+        {
+          "client_id": "492542810416-k07g3rvjj9f4ld03sskbq42jr788jm60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "a484c83185968ecbf05831b482491b6b9b408fa6"
+          }
+        },
+        {
+          "client_id": "492542810416-q1cmnoq4cqp6qp79jlv4aql621hiknr0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bhangaar",
+            "certificate_hash": "faa7de3f5a03305446e55c6adbfd14b09343a44f"
+          }
+        },
+        {
+          "client_id": "492542810416-7c0353hcas5e8durcvm5sqslqtpa0k0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqphHcN3M0ttu9_45DQnuxEPahZDEBspA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492542810416-7c0353hcas5e8durcvm5sqslqtpa0k0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
