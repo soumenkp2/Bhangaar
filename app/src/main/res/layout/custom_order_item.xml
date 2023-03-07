@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="150dp"
     android:id="@+id/custom_item"
     android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -14,45 +14,80 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@drawable/primary_outline"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/order_item_image"
-                android:padding="10dp"
-                android:src="@drawable/home_icon_primary"/>
+                android:orientation="horizontal">
 
-            <TextView
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/order_item_image"
+                    android:padding="10dp"
+                    android:src="@drawable/home_icon_primary"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Paper"
+                    android:id="@+id/order_item_name"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Rs.20/Kg"
+                    android:id="@+id/order_item_rate"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="#009688"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Paper"
-                android:id="@+id/order_item_name"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/black"/>
+                android:visibility="visible"
+                android:id="@+id/expected_kg"
+                android:layout_height="100dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Rs.20/Kg"
-                android:id="@+id/order_item_rate"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="#009688"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Expected Amount of Kg - "
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/black"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:hint="X"
+                    android:gravity="center"
+                    android:id="@+id/item_kg"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/black"/>
 
-
-
-
+            </LinearLayout>
         </LinearLayout>
+
+
 
 
     </androidx.cardview.widget.CardView>

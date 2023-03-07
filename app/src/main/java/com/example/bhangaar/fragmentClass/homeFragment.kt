@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +24,7 @@ import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import java.lang.Double.parseDouble
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -48,14 +51,19 @@ class homeFragment : Fragment() {
     private lateinit var usersetdb : FirebaseFirestore
     private lateinit var vendorsetdb : FirebaseFirestore
     public lateinit var item_list : ArrayList<Item_Info>
+    //public lateinit var expected_kg_item_list : ArrayList<Int>
+
     private lateinit var item_adapter : itemAdapter
 
     private lateinit var textname : TextView
     private lateinit var order_btn : TextView
+    private lateinit var total_kg_txt : TextView
     var count : Int = 0
     lateinit var order_info : Order_Info
     lateinit var order_item_list : ArrayList<Item_Info>
     private lateinit var item_check_list : ArrayList<Boolean>
+
+    var total_kg_value : String = ""
 
     var authUserId = "Soumen"
 
@@ -100,6 +108,9 @@ class homeFragment : Fragment() {
 
         textname = view.findViewById(R.id.textname)
         order_btn = view.findViewById(R.id.make_order_btn)
+        total_kg_txt = view.findViewById(R.id.totalKg_txt)
+
+        total_kg_txt.text = total_kg_value.toString()
 
         textname.text = "Hello " + name.toString()
         recycler_item = view.findViewById(R.id.item_recycler)
@@ -112,12 +123,27 @@ class homeFragment : Fragment() {
 
         EventChangeListener()
 
-        item_adapter = context?.let { itemAdapter(item_list, it, item_check_list) }!!
+        item_adapter = context?.let { itemAdapter(item_list, it, item_check_list, total_kg_value) }!!
         recycler_item.adapter = item_adapter
 
-//        textname.setOnClickListener {
-//            Toast.makeText(context, "State 1 : "+item_check_list[0] + " and " + "State 2 : "+item_check_list[1], Toast.LENGTH_SHORT).show();
-//        }
+        textname.setOnClickListener {
+            var item_s : Int = item_check_list.size
+            var index : Int = 0
+            var curr_order_string : String = ""
+
+            while(item_s!=0)
+            {
+                if(item_check_list[index]==true)
+                {
+                    curr_order_string += item_list[index].expectedKg.toString()
+                    curr_order_string += "\n"
+                }
+                index++
+                item_s--
+            }
+
+            Toast.makeText(context, curr_order_string.toString(), Toast.LENGTH_SHORT).show()
+        }
 
 
         order_info = Order_Info()
@@ -139,7 +165,15 @@ class homeFragment : Fragment() {
 
         order_btn.setOnClickListener {
             order_info.OrderNo = (0..1000000).random()
-            SetDataEventListener()
+
+            if(check_empty_checkBoxes())
+            {
+                SetDataEventListener()
+            }
+            else{
+                Toast.makeText(context,"Fill all the empty boxes", Toast.LENGTH_SHORT).show()
+            }
+
 
             //Toast.makeText(context,order_info.startTime + order_info.endTime, Toast.LENGTH_SHORT).show()
 
@@ -168,6 +202,8 @@ class homeFragment : Fragment() {
 
             }
 
+
+
         }
 
 
@@ -175,11 +211,57 @@ class homeFragment : Fragment() {
         return view
     }
 
+    private fun check_empty_checkBoxes(): Boolean {
+        var curr_s : Int = item_check_list.size
+        var index_s : Int = 0;
+
+        var tkg : Int = 0
+        var numeric = true
+
+        while(curr_s > 0)
+        {
+            if(item_check_list[index_s] == true)
+            {
+                try {
+                    val num = parseDouble(item_list[index_s].expectedKg.toString())
+                } catch (e: NumberFormatException) {
+                    numeric = false
+                }
+
+            }
+            curr_s--;
+            index_s++;
+        }
+
+        return numeric
+    }
+
     private fun SetDataEventListener()
     {
         order_info.OrderNo = (0..1000000).random()
         //order_info.OrderNo = 654321
         val order_no = order_info.OrderNo
+
+        //Evaluating total kg value
+        var curr_s : Int = item_check_list.size
+        var index_s : Int = 0;
+
+        var tkg : Int = 0
+
+        while(curr_s > 0)
+        {
+            if(item_check_list[index_s] == true)
+            {
+                tkg += item_list[index_s].expectedKg?.toInt() ?: 0
+            }
+            curr_s--;
+            index_s++;
+        }
+
+        total_kg_value = tkg.toString()
+        total_kg_txt.text = total_kg_value
+
+        order_info.totalKg = total_kg_value
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
@@ -199,7 +281,7 @@ class homeFragment : Fragment() {
         {
             if(item_check_list[index]==true)
             {
-                test += item_list[index].ItemName + ","
+                test += item_list[index].expectedKg.toString() + ","
                 order_item_list.add(item_list[index])
 
                 setdb = FirebaseFirestore.getInstance()
@@ -226,6 +308,17 @@ class homeFragment : Fragment() {
         requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
+    private fun check_all_text_boxes()
+    {
+        for(i in 0 .. item_check_list.size-1)
+        {
+            if(item_check_list[i] == true)
+            {
+
+            }
+        }
+    }
+
     private fun EventChangeListener()
     {
         db = FirebaseFirestore.getInstance()
@@ -247,6 +340,7 @@ class homeFragment : Fragment() {
                             if(dc.type == DocumentChange.Type.ADDED)
                             {
                                 item_list.add(dc.document.toObject(Item_Info::class.java))
+                                //expected_kg_item_list.add(0);
                             }
                         }
 

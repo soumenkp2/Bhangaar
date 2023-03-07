@@ -63,6 +63,38 @@
             android:layout_height="wrap_content"
             android:id="@+id/item_recycler"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total expected Kg : "
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/black"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/totalKg_txt"
+                android:layout_height="wrap_content"
+                android:text="0kg"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/teal_700"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"

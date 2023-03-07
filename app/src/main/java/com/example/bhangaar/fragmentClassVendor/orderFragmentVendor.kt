@@ -1,7 +1,6 @@
 package com.example.bhangaar.fragmentClassVendor
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,17 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.orderRequestAdapter
 import com.example.bhangaar.dataClass.Order_Info
-import com.example.bhangaar.orderTransactionDialog
 import com.google.firebase.firestore.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +37,8 @@ class orderFragmentVendor : Fragment() {
     private lateinit var orderDetailList : ArrayList<Order_Info>
     private lateinit var db : FirebaseFirestore
     private lateinit var orderDetailsAdapter: orderRequestAdapter
+
+    private var pincodes : ArrayList<String> = arrayListOf<String>("201204","201206","201201","201017")
 
     private lateinit var livebtn :TextView
     private lateinit var completebtn :TextView
@@ -134,113 +132,234 @@ class orderFragmentVendor : Fragment() {
     }
 
     private fun fetchOrderDetailData_Live() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
-            .document("Orders").collection("OrderDetailList").
-            addSnapshotListener(object : EventListener<QuerySnapshot>
-            {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-                    if(p1!=null)
-                    {
-                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-                        Log.e(p1.toString(),"Error Message")
-                    }
 
-                    for(dc : DocumentChange in p0?.documentChanges!!)
-                    {
-                        if(dc.type == DocumentChange.Type.ADDED)
+        var pincode_index : Int = 0
+        while(pincode_index != pincodes.size)
+        {
+            db = FirebaseFirestore.getInstance()
+            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+                .document("Orders").collection("OrderDetailList").
+                addSnapshotListener(object : EventListener<QuerySnapshot>
+                {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                        if(p1!=null)
                         {
-                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
-
-                            if(order_item.OrderStatus.equals("Accepted") && order_item.authvendorid.equals(authVendorId))
-                            {
-                                orderDetailList.add(order_item)
-                            }
-
+                            Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                            Log.e(p1.toString(),"Error Message")
                         }
+
+                        for(dc : DocumentChange in p0?.documentChanges!!)
+                        {
+                            if(dc.type == DocumentChange.Type.ADDED)
+                            {
+                                val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                                if(order_item.OrderStatus.equals("Accepted") && order_item.authvendorid.equals(authVendorId))
+                                {
+                                    orderDetailList.add(order_item)
+                                }
+
+                            }
+                        }
+
+                        orderDetailsAdapter.notifyDataSetChanged()
+
                     }
 
-                    orderDetailsAdapter.notifyDataSetChanged()
 
-                }
+                })
+            pincode_index++
+        }
 
 
-            })
+//        db = FirebaseFirestore.getInstance()
+//        db.collection("BhangaarItems").document(state).collection(postal)
+//            .document("Orders").collection("OrderDetailList").
+//            addSnapshotListener(object : EventListener<QuerySnapshot>
+//            {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+//                    if(p1!=null)
+//                    {
+//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+//                        Log.e(p1.toString(),"Error Message")
+//                    }
+//
+//                    for(dc : DocumentChange in p0?.documentChanges!!)
+//                    {
+//                        if(dc.type == DocumentChange.Type.ADDED)
+//                        {
+//                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+//
+//                            if(order_item.OrderStatus.equals("Accepted") && order_item.authvendorid.equals(authVendorId))
+//                            {
+//                                orderDetailList.add(order_item)
+//                            }
+//
+//                        }
+//                    }
+//
+//                    orderDetailsAdapter.notifyDataSetChanged()
+//
+//                }
+//
+//
+//            })
 
     }
 
     private fun fetchOrderDetailData_Completed() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
-            .document("Orders").collection("OrderDetailList").
-            addSnapshotListener(object : EventListener<QuerySnapshot>
-            {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-                    if(p1!=null)
-                    {
-                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-                        Log.e(p1.toString(),"Error Message")
-                    }
 
-                    for(dc : DocumentChange in p0?.documentChanges!!)
-                    {
-                        if(dc.type == DocumentChange.Type.ADDED)
+        var pincode_index : Int = 0
+        while(pincode_index != pincodes.size)
+        {
+            db = FirebaseFirestore.getInstance()
+            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+                .document("Orders").collection("OrderDetailList").
+                addSnapshotListener(object : EventListener<QuerySnapshot>
+                {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                        if(p1!=null)
                         {
-                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
-
-                            if(order_item.OrderStatus.equals("Completed") && order_item.authvendorid.equals(authVendorId))
-                            {
-                                orderDetailList.add(order_item)
-                            }
-
+                            Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                            Log.e(p1.toString(),"Error Message")
                         }
+
+                        for(dc : DocumentChange in p0?.documentChanges!!)
+                        {
+                            if(dc.type == DocumentChange.Type.ADDED)
+                            {
+                                val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                                if(order_item.OrderStatus.equals("Completed") && order_item.authvendorid.equals(authVendorId))
+                                {
+                                    orderDetailList.add(order_item)
+                                }
+
+                            }
+                        }
+
+                        orderDetailsAdapter.notifyDataSetChanged()
+
                     }
 
-                    orderDetailsAdapter.notifyDataSetChanged()
 
-                }
+                })
+            pincode_index++
+        }
 
-
-            })
+//        db = FirebaseFirestore.getInstance()
+//        db.collection("BhangaarItems").document(state).collection(postal)
+//            .document("Orders").collection("OrderDetailList").
+//            addSnapshotListener(object : EventListener<QuerySnapshot>
+//            {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+//                    if(p1!=null)
+//                    {
+//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+//                        Log.e(p1.toString(),"Error Message")
+//                    }
+//
+//                    for(dc : DocumentChange in p0?.documentChanges!!)
+//                    {
+//                        if(dc.type == DocumentChange.Type.ADDED)
+//                        {
+//                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+//
+//                            if(order_item.OrderStatus.equals("Completed") && order_item.authvendorid.equals(authVendorId))
+//                            {
+//                                orderDetailList.add(order_item)
+//                            }
+//
+//                        }
+//                    }
+//
+//                    orderDetailsAdapter.notifyDataSetChanged()
+//
+//                }
+//
+//
+//            })
 
     }
 
     private fun fetchOrderDetailData_Cancelled() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
-            .document("Orders").collection("OrderDetailList").
-            addSnapshotListener(object : EventListener<QuerySnapshot>
-            {
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-                    if(p1!=null)
-                    {
-                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-                        Log.e(p1.toString(),"Error Message")
-                    }
 
-                    for(dc : DocumentChange in p0?.documentChanges!!)
-                    {
-                        if(dc.type == DocumentChange.Type.ADDED)
+        var pincode_index : Int = 0
+        while(pincode_index != pincodes.size)
+        {
+            db = FirebaseFirestore.getInstance()
+            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+                .document("Orders").collection("OrderDetailList").
+                addSnapshotListener(object : EventListener<QuerySnapshot>
+                {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+                        if(p1!=null)
                         {
-                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
-
-                            if(order_item.OrderStatus.equals("Cancelled") && order_item.authvendorid.equals(authVendorId))
-                            {
-                                orderDetailList.add(order_item)
-                            }
-
+                            Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+                            Log.e(p1.toString(),"Error Message")
                         }
+
+                        for(dc : DocumentChange in p0?.documentChanges!!)
+                        {
+                            if(dc.type == DocumentChange.Type.ADDED)
+                            {
+                                val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+
+                                if(order_item.OrderStatus.equals("Cancelled") && order_item.authvendorid.equals(authVendorId))
+                                {
+                                    orderDetailList.add(order_item)
+                                }
+
+                            }
+                        }
+
+                        orderDetailsAdapter.notifyDataSetChanged()
+
                     }
 
-                    orderDetailsAdapter.notifyDataSetChanged()
 
-                }
+                })
+            pincode_index++
+        }
 
-
-            })
+//        db = FirebaseFirestore.getInstance()
+//        db.collection("BhangaarItems").document(state).collection(postal)
+//            .document("Orders").collection("OrderDetailList").
+//            addSnapshotListener(object : EventListener<QuerySnapshot>
+//            {
+//                @SuppressLint("NotifyDataSetChanged")
+//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
+//                    if(p1!=null)
+//                    {
+//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
+//                        Log.e(p1.toString(),"Error Message")
+//                    }
+//
+//                    for(dc : DocumentChange in p0?.documentChanges!!)
+//                    {
+//                        if(dc.type == DocumentChange.Type.ADDED)
+//                        {
+//                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
+//
+//                            if(order_item.OrderStatus.equals("Cancelled") && order_item.authvendorid.equals(authVendorId))
+//                            {
+//                                orderDetailList.add(order_item)
+//                            }
+//
+//                        }
+//                    }
+//
+//                    orderDetailsAdapter.notifyDataSetChanged()
+//
+//                }
+//
+//
+//            })
 
     }
 

@@ -93,6 +93,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         holder.order_status.text = order_item.OrderStatus.toString()
         holder.username.text = order_item.UserName.toString()
         holder.user_address.text = order_item.userAddress.toString()
+        holder.total_kg.text = "Total - " + order_item.totalKg.toString() + "/kg"
 
         order_no = order_item.OrderNo.toString()
 
@@ -207,6 +208,7 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         val accept_linear : LinearLayout = itemView.findViewById(R.id.accept_linear)
         val progress_linear : LinearLayout = itemView.findViewById(R.id.progress_linear)
         val user_address : TextView = itemView.findViewById(R.id.address)
+        val total_kg : TextView = itemView.findViewById(R.id.total_kg)
 
     }
 }

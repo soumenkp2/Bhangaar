@@ -8,5 +8,6 @@ data class Person_Info(var name : String ?= null,
                        var phone : String ?= null,
                        var latitude : String ?= null,
                        var longitude : String ?= null,
+                       var aadhaar : String ?= null
                        )
 

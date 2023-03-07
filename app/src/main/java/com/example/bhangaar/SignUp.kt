@@ -28,6 +28,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var editTxtName : EditText
     private lateinit var auth : FirebaseAuth
     private lateinit var number : String
+    private lateinit var aadhaar : String
     private lateinit var progressbar : ProgressBar
     private lateinit var otp_layout : LinearLayout
     private lateinit var resend_otp_txt : TextView
@@ -88,8 +89,9 @@ class SignUp : AppCompatActivity() {
         //Send otp method
         sendOtpBtn.setOnClickListener {
             number = editTxtPhone.text.toString().trim()
+            aadhaar = editTxtName.text.toString().trim()
 
-            if(number.isNotEmpty() && number.length == 10)
+            if(number.isNotEmpty() && number.length == 10 && aadhaar.isNotEmpty() && aadhaar.length == 10)
             {
                 number = "+91$number"
 
@@ -136,6 +138,7 @@ class SignUp : AppCompatActivity() {
                     intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
                     intent.putExtra("phone",number.toString())
                     intent.putExtra("screen",screen)
+                    intent.putExtra("aadhaar", aadhaar)
                     startActivity(intent)
 
                     val user = task.result?.user
@@ -155,7 +158,7 @@ class SignUp : AppCompatActivity() {
     {
         sendOtpBtn = findViewById(R.id.sendotp_btn)
         editTxtPhone = findViewById(R.id.edit_txt_phoneno)
-        editTxtName = findViewById(R.id.edit_txt_name)
+        editTxtName = findViewById(R.id.edit_txt_aadhar)
         auth = FirebaseAuth.getInstance()
         resend_otp_txt = findViewById(R.id.resendbtn)
         otp_layout = findViewById(R.id.otp_layout)

@@ -51,6 +51,7 @@ class personDetails : AppCompatActivity() {
     private lateinit var userid : String
     private var phone : String = "13939"
     private lateinit var screen : String
+    private var aadhar : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,12 +74,13 @@ class personDetails : AppCompatActivity() {
         role = intent.extras?.get("role").toString()
         phone = intent.extras?.get("phone").toString()
         screen = intent.extras?.get("screen").toString()
+        aadhar = intent.extras?.get("aadhaar").toString()
 
         Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
         edit_name.setText(name.toString())
 
         //Signin fetch from Users/Vendors
-        if(screen.equals("signin"))
+        if(screen.equals("signin") || screen.equals("edit"))
         {
 
             var person_info : Person_Info = Person_Info()
@@ -113,20 +115,28 @@ class personDetails : AppCompatActivity() {
                                     lat = person_info.latitude.toString()
                                     long = person_info.longitude.toString()
 
-                                    Toast.makeText(applicationContext, name+state+postal, Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext, name+state+postal, Toast.LENGTH_SHORT).show()
 
-                                    val intent : Intent
-                                    intent = Intent(applicationContext, MainActivity::class.java)
-                                    intent.putExtra("role",role)
-                                    intent.putExtra("userid", userid)
-                                    intent.putExtra("name",name);
-                                    intent.putExtra("state",state);
-                                    intent.putExtra("postal",postal);
-                                    intent.putExtra("address",address);
-                                    intent.putExtra("lat",lat);
-                                    intent.putExtra("long",long);
-                                    intent.putExtra("phone",phone);
-                                    startActivity(intent)
+                                    if(screen.equals("signin"))
+                                    {
+                                        val intent : Intent
+                                        intent = Intent(applicationContext, MainActivity::class.java)
+                                        intent.putExtra("role",role)
+                                        intent.putExtra("userid", userid)
+                                        intent.putExtra("name",name);
+                                        intent.putExtra("state",state);
+                                        intent.putExtra("postal",postal);
+                                        intent.putExtra("address",address);
+                                        intent.putExtra("lat",lat);
+                                        intent.putExtra("long",long);
+                                        intent.putExtra("phone",phone);
+                                        startActivity(intent)
+                                    }
+
+                                }
+                                else
+                                {
+                                    Toast.makeText(applicationContext,"Verify your number again",Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }
@@ -153,11 +163,13 @@ class personDetails : AppCompatActivity() {
                     state = "UttarPradesh"
                 }
 
+
                 val person_info : Person_Info = Person_Info(edit_name.text.toString(),
                     postal,
                     state,
                     address,
-                    userid,phone,lat,long
+                    userid,phone,lat,long,
+                    aadhar
                     )
 
                 val setdb : FirebaseFirestore = FirebaseFirestore.getInstance()

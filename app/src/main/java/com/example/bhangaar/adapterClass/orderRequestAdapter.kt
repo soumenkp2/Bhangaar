@@ -53,6 +53,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         holder.order_status.text = order_item.OrderStatus.toString()
         holder.username.text = order_item.UserName.toString()
         holder.user_address.text = order_item.userAddress.toString()
+        holder.total_kg.text = "Total - " + order_item.totalKg.toString() + "/kg"
+
         order_no = order_item.OrderNo.toString()
 
         if(screen == "home_vendor")
@@ -119,7 +121,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
+        db.collection("BhangaarItems").document(state).collection(order_item.UserLocation.toString())
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -167,7 +169,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,postal,lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -177,7 +179,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,postal,lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -187,7 +189,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,postal,lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -266,6 +268,7 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
         val user_location : ImageView = itemView.findViewById(R.id.user_location)
         val user_phone : ImageView = itemView.findViewById(R.id.user_call)
         val user_address : TextView = itemView.findViewById(R.id.address)
+        val total_kg : TextView = itemView.findViewById(R.id.total_kg)
 
     }
 }

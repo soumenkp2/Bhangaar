@@ -13,5 +13,6 @@ data class Order_Info(var OrderNo : Int ?= null,
                       var latitude : String ?= null,
                       var longitude : String ?= null,
                       var startTime : String ?= null,
-                      var endTime : String ?= null
+                      var endTime : String ?= null,
+                      var totalKg : String ?= null,
                       )

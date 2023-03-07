@@ -48,7 +48,7 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
             if(change == "accepted")
             {
-                var homefrag = homeFragmentVendor()
+                val homefrag = homeFragmentVendor()
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 if (transaction != null) {
 

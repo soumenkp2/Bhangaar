@@ -24,6 +24,7 @@ class orderAdapter (private val order_item_list : ArrayList<Item_Info>, private 
         val item : Item_Info = order_item_list[position]
         holder.item_name.text = item.ItemName
         holder.item_rate.text = item.ItemRate
+        holder.item_kg.text = item.expectedKg
 
         Glide.with(context).load(item.ItemPic).into(holder.item_pic)
     }
@@ -36,5 +37,6 @@ class orderAdapter (private val order_item_list : ArrayList<Item_Info>, private 
         val item_pic : ImageView = itemView.findViewById(R.id.order_item_image)
         val item_name : TextView = itemView.findViewById(R.id.order_item_name)
         val item_rate : TextView = itemView.findViewById(R.id.order_item_rate)
+        val item_kg : TextView = itemView.findViewById(R.id.item_kg)
     }
 }
