@@ -28,7 +28,7 @@ import com.google.firebase.firestore.EventListener
 import java.util.*
 
 
-class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String, private val state : String, private val postal : String, private val lat : String, private val long : String, private val name : String, private val address : String, private val role : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
+class orderRequestAdapter(private val order_list : MutableList<Order_Info>, private val context: Context, private val screen : String, private val category : String, private val authVendorId : String, private val state : String, private val postal : String, private val lat : String, private val long : String, private val name : String, private val address : String, private val role : String) : RecyclerView.Adapter<orderRequestAdapter.itemViewHolder>() {
 
     private lateinit var itemlist :ArrayList<Item_Info>
     private lateinit var orderAdapter: orderAdapter
@@ -36,6 +36,8 @@ class orderRequestAdapter(private val order_list : ArrayList<Order_Info>, privat
     private lateinit var authuserid : String
     
     private var estimated_distance : Double = 0.0
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): itemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.custom_order_request,parent,false)

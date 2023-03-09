@@ -53,7 +53,6 @@ class personDetails : AppCompatActivity() {
     private lateinit var screen : String
     private var aadhar : String = ""
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_person_details)
@@ -76,7 +75,7 @@ class personDetails : AppCompatActivity() {
         screen = intent.extras?.get("screen").toString()
         aadhar = intent.extras?.get("aadhaar").toString()
 
-        Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
         edit_name.setText(name.toString())
 
         //Signin fetch from Users/Vendors
@@ -93,19 +92,19 @@ class personDetails : AppCompatActivity() {
                     override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
                         if(p1!=null)
                         {
-                            Toast.makeText(applicationContext, p1.toString(), Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(applicationContext, p1.toString(), Toast.LENGTH_SHORT).show()
                             Log.e(p1.toString(),"Error Message")
                         }
 
                         for(dc : DocumentChange in p0?.documentChanges!!)
                         {
-                            Toast.makeText(applicationContext,userid+"OYYYY",Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(applicationContext,userid+"OYYYY",Toast.LENGTH_SHORT).show()
                             if(dc.type == DocumentChange.Type.ADDED)
                             {
                                 val item : Person_Info = dc.document.toObject(Person_Info::class.java)
                                 if(item.userid.equals(userid))
                                 {
-                                    Toast.makeText(applicationContext,"oyoy",Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(applicationContext,"oyoy",Toast.LENGTH_SHORT).show()
                                     person_info = item
 
                                     name = person_info.name.toString()
@@ -114,6 +113,7 @@ class personDetails : AppCompatActivity() {
                                     address = person_info.address.toString()
                                     lat = person_info.latitude.toString()
                                     long = person_info.longitude.toString()
+                                    aadhar = person_info.aadhaar.toString()
 
                                     //Toast.makeText(applicationContext, name+state+postal, Toast.LENGTH_SHORT).show()
 

@@ -15,6 +15,7 @@ import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.fragmentClassVendor.profileFragmentVendor
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class MainActivity : AppCompatActivity() {
@@ -78,6 +79,8 @@ class MainActivity : AppCompatActivity() {
         homebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.home_icon_primary));
         orderbtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shopblack));
         profilebtn.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.userblack));
+
+        FirebaseMessaging.getInstance().subscribeToTopic("soumen")
 
         if(role == "Users")
         {

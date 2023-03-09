@@ -36,7 +36,7 @@ class homeFragmentVendor : Fragment() {
     private var param2: String? = null
 
     private lateinit var order_request_recycler : RecyclerView
-    private lateinit var orderDetailList : ArrayList<Order_Info>
+    private lateinit var orderDetailList : MutableList<Order_Info>
     private lateinit var db : FirebaseFirestore
     private lateinit var orderDetailsAdapter: orderRequestAdapter
     private lateinit var authVendorId : String
@@ -87,7 +87,7 @@ class homeFragmentVendor : Fragment() {
         order_request_recycler = view.findViewById(R.id.orderlist_recycler)
         order_request_recycler.layoutManager = LinearLayoutManager(context)
         order_request_recycler.hasFixedSize()
-        orderDetailList = arrayListOf()
+        orderDetailList = mutableListOf()
 
         //pincodes = arrayListOf()
         //fetchPincodes()
@@ -98,10 +98,8 @@ class homeFragmentVendor : Fragment() {
 
         orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId, state, postal, lat, long,name,address,role) }!!
         order_request_recycler.adapter = orderDetailsAdapter
-//
-//        Toast.makeText(context,"gg" + orderDetailList.size,Toast.LENGTH_SHORT).show()
-//        orderDetailList.sortedWith(compareBy({calculate_distance(it.latitude!!.toDouble(), it.longitude!!.toDouble(), lat.toDouble(), long.toDouble())}))
-//        orderDetailsAdapter.notifyDataSetChanged()
+
+        orderDetailsAdapter.notifyDataSetChanged()
 
         return view
     }
@@ -116,39 +114,14 @@ class homeFragmentVendor : Fragment() {
                 for (document in result) {
                     val users = document.toObject(Postal_Info::class.java)
                     //pincodes.add(users)
-                    Toast.makeText(context,users.code,Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context,users.code,Toast.LENGTH_SHORT).show()
                     //Log.d(TAG, "${document.id} => ${document.data}")
                 }
             }
             .addOnFailureListener { exception ->
                 //Log.w(TAG, "Error getting documents: ", exception)
             }
-//            addSnapshotListener(object : EventListener<QuerySnapshot>
-//            {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                    if(p1!=null)
-//                    {
-//                        //Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                        Log.e(p1.toString(),"Error Message")
-//                    }
-//
-//                    for(dc : DocumentChange in p0?.documentChanges!!)
-//                    {
-//                        if(dc.type == DocumentChange.Type.ADDED)
-//                        {
-//                            val item : Postal_Info = dc.document.toObject(Postal_Info::class.java)
-//                            pincodes.add(item)
-//                            test += item.code.toString()
-//                            test += "\n"
-//
-//                        }
-//                    }
-//
-//                }
-//
-//
-//            })
+
     }
 
 
@@ -173,10 +146,10 @@ class homeFragmentVendor : Fragment() {
         if(pincodes.size == 0)
         {
             fetchPincodes()
-            Toast.makeText(context, "Pincodes Size if : " + pincodes.size, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Pincodes Size if : " + pincodes.size, Toast.LENGTH_SHORT).show()
         }
         else{
-            Toast.makeText(context, "Pincodes Size : " + pincodes.size, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Pincodes Size : " + pincodes.size, Toast.LENGTH_SHORT).show()
             var pincode_index : Int = 0
             while(pincode_index != pincodes.size)
             {
@@ -194,29 +167,39 @@ class homeFragmentVendor : Fragment() {
 
                             for(dc : DocumentChange in p0?.documentChanges!!)
                             {
+                                var dist = 0;
                                 if(dc.type == DocumentChange.Type.ADDED)
                                 {
                                     val item : Order_Info = dc.document.toObject(Order_Info::class.java)
                                     val estimated_distance : Double = calculate_distance(item.latitude!!.toDouble(), item.longitude!!.toDouble(), lat.toDouble(), long.toDouble())/1000
-                                    val dist : Int = estimated_distance.roundToInt()
+                                    dist = estimated_distance.roundToInt()
 
-                                    Toast.makeText(context, dist.toString(),Toast.LENGTH_SHORT).show()
-                                    if(item.OrderStatus.equals("Confirmed") && dist<=12)
+                                    //Toast.makeText(context, dist.toString(),Toast.LENGTH_SHORT).show()
+                                    if(item.OrderStatus.equals("Confirmed") && dist<=10)
                                     {
+                                        item.dist = dist
                                         orderDetailList.add(item)
-                                        //Toast.makeText(context, dist.toString(),Toast.LENGTH_SHORT).show()
-                                        //orderDetailList.sortedWith(compareBy({dist}))
+
                                     }
 
                                 }
                             }
 
-                            //Toast.makeText(context,"ss"+orderDetailList.size,Toast.LENGTH_SHORT).show()
-                              //orderDetailList.sortedBy { it.OrderNo }
-                            orderDetailList.sortedBy { it.OrderNo.toString() }
-                            //Toast.makeText(context,"ss"+orderDetailList.get(0).OrderNo,Toast.LENGTH_SHORT).show()
-//                            orderDetailsAdapter = context?.let { orderRequestAdapter(orderDetailList, it, "home_vendor", "Confirmed", authVendorId, state, postal, lat, long,name,address,role) }!!
-//                            order_request_recycler.adapter = orderDetailsAdapter
+                            orderDetailList.sortWith(Comparator { lhs, rhs ->
+                                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                                if (lhs.dist!! > rhs.dist!!)
+                                {
+                                    return@Comparator 1
+                                }
+                                else if(lhs.dist  == rhs.dist)
+                                {
+                                    return@Comparator 0
+                                }
+                                else{
+                                    return@Comparator -1
+                                }
+                            })
+
                             orderDetailsAdapter.notifyDataSetChanged()
 
                         }
@@ -228,45 +211,15 @@ class homeFragmentVendor : Fragment() {
                 pincode_index++
             }
 
-            orderDetailList.sortedBy { it.OrderNo }
-            Toast.makeText(context,"ss"+orderDetailList.size,Toast.LENGTH_SHORT).show()
+            //orderDetailList.sortedBy { it.OrderNo }
+            //Toast.makeText(context,"ss"+orderDetailList.size,Toast.LENGTH_SHORT).show()
 
 
 
 
 
         }
-//        db.collection("BhangaarItems").document(state).collection(postal)
-//            .document("Orders").collection("OrderDetailList").
-//            addSnapshotListener(object : EventListener<QuerySnapshot>
-//            {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                    if(p1!=null)
-//                    {
-//                        //Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                        Log.e(p1.toString(),"Error Message")
-//                    }
-//
-//                    for(dc : DocumentChange in p0?.documentChanges!!)
-//                    {
-//                        if(dc.type == DocumentChange.Type.ADDED)
-//                        {
-//                            val item : Order_Info = dc.document.toObject(Order_Info::class.java)
-//                            if(item.OrderStatus.equals("Confirmed"))
-//                            {
-//                                orderDetailList.add(item)
-//                            }
-//
-//                        }
-//                    }
-//
-//                    orderDetailsAdapter.notifyDataSetChanged()
-//
-//                }
-//
-//
-//            })
+
 
     }
 
