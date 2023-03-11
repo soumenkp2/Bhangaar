@@ -106,6 +106,17 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
             holder.user_address.visibility = View.VISIBLE
         }
 
+        holder.parentcard.setOnClickListener {
+            holder.up_arrow.rotation = 0F
+            holder.order_pic.visibility = View.VISIBLE
+            holder.order_status.visibility = View.VISIBLE
+            holder.username.visibility = View.VISIBLE
+            holder.order_list.visibility = View.VISIBLE
+            holder.showcase_pic.visibility = View.GONE
+            holder.actions.visibility = View.VISIBLE
+            holder.user_address.visibility = View.VISIBLE
+        }
+
         holder.up_arrow.setOnClickListener {
             holder.up_arrow.rotation = 180F
             holder.order_pic.visibility = View.GONE
@@ -271,6 +282,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
         val user_phone : ImageView = itemView.findViewById(R.id.user_call)
         val user_address : TextView = itemView.findViewById(R.id.address)
         val total_kg : TextView = itemView.findViewById(R.id.total_kg)
+        val parentcard : CardView = itemView.findViewById(R.id.parentcard)
 
     }
 }

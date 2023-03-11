@@ -55,6 +55,11 @@ class SignUp : AppCompatActivity() {
 
         addTextChangeListener()
 
+        if(role.toString() == "Users")
+        {
+            editTxtName.visibility = View.GONE
+        }
+
 
         //Responds when resend otp is invoked/clicked
         resend_otp_txt.setOnClickListener {
@@ -91,7 +96,7 @@ class SignUp : AppCompatActivity() {
             number = editTxtPhone.text.toString().trim()
             aadhaar = editTxtName.text.toString().trim()
 
-            if(number.isNotEmpty() && number.length == 10 && aadhaar.isNotEmpty() && aadhaar.length == 10)
+            if(number.isNotEmpty() && number.length == 10 && ((aadhaar.isNotEmpty() && aadhaar.length == 12 && role.toString()=="Vendors") || (role.toString()=="Users")))
             {
                 number = "+91$number"
 

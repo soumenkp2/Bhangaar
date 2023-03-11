@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,6 @@ import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
-import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
 import com.example.bhangaar.orderDetails
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -45,6 +42,39 @@ class homeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var pincodes : ArrayList<String> = arrayListOf<String>(
+        "201204",
+        "245101",
+        "201015",
+        "245208",
+        "245201",
+        "245304",
+        "201009",
+        "201001",
+        "245205",
+        "201003",
+        "201102",
+        "245207",
+        "201010",
+        "201005",
+        "201011",
+        "201006",
+        "201201",
+        "201016",
+        "245301",
+        "201013",
+        "201004",
+        "201002",
+        "201012",
+        "201014",
+        "201007",
+        "201301",
+        "201303",
+        "201017",
+        "201103",
+        "201019"
+        )
+
     private lateinit var recycler_item : RecyclerView
     private lateinit var db : FirebaseFirestore
     private lateinit var setdb : FirebaseFirestore
@@ -57,11 +87,12 @@ class homeFragment : Fragment() {
 
     private lateinit var textname : TextView
     private lateinit var order_btn : TextView
-    private lateinit var total_kg_txt : TextView
+    //private lateinit var total_kg_txt : TextView
     var count : Int = 0
     lateinit var order_info : Order_Info
     lateinit var order_item_list : ArrayList<Item_Info>
     private lateinit var item_check_list : ArrayList<Boolean>
+    private lateinit var item_txt_list : ArrayList<String>
 
     var total_kg_value : String = ""
 
@@ -108,9 +139,9 @@ class homeFragment : Fragment() {
 
         textname = view.findViewById(R.id.textname)
         order_btn = view.findViewById(R.id.make_order_btn)
-        total_kg_txt = view.findViewById(R.id.totalKg_txt)
+        //total_kg_txt = view.findViewById(R.id.totalKg_txt)
 
-        total_kg_txt.text = total_kg_value.toString()
+        //total_kg_txt.text = total_kg_value.toString()
 
         textname.text = "Hello " + name.toString()
         recycler_item = view.findViewById(R.id.item_recycler)
@@ -120,29 +151,31 @@ class homeFragment : Fragment() {
         item_list = arrayListOf()
         item_check_list = arrayListOf()
         order_item_list = arrayListOf()
+        item_txt_list = arrayListOf()
 
         EventChangeListener()
 
-        item_adapter = context?.let { itemAdapter(item_list, it, item_check_list, total_kg_value) }!!
+        item_adapter = context?.let { itemAdapter(item_list, it, item_check_list, total_kg_value, item_txt_list) }!!
         recycler_item.adapter = item_adapter
 
         textname.setOnClickListener {
-            var item_s : Int = item_check_list.size
-            var index : Int = 0
-            var curr_order_string : String = ""
-
-            while(item_s!=0)
-            {
-                if(item_check_list[index]==true)
-                {
-                    curr_order_string += item_list[index].expectedKg.toString()
-                    curr_order_string += "\n"
-                }
-                index++
-                item_s--
-            }
-
-            Toast.makeText(context, curr_order_string.toString(), Toast.LENGTH_SHORT).show()
+//            var item_s : Int = item_check_list.size
+//            var index : Int = 0
+//            var curr_order_string : String = ""
+//
+//            while(item_s!=0)
+//            {
+//                if(item_check_list[index]==true)
+//                {
+//                    curr_order_string += item_list[index].expectedKg.toString()
+//                    curr_order_string += "\n"
+//                }
+//                index++
+//                item_s--
+//            }
+//
+//            Toast.makeText(context, curr_order_string.toString(), Toast.LENGTH_SHORT).show()
+            set_Pincodes()
         }
 
 
@@ -211,6 +244,34 @@ class homeFragment : Fragment() {
         return view
     }
 
+    private fun set_Pincodes()
+    {
+
+        Toast.makeText(context,"size : ${item_check_list.size} $ size : ${item_list.size}",Toast.LENGTH_SHORT).show()
+
+        //Traversing pincodes arraylist and set itemlist there one by one
+//        var pincode_index : Int = 0
+//        while(pincode_index != pincodes.size)
+//        {
+//            var index = 0
+//            while(index != item_list.size)
+//            {
+//                db = FirebaseFirestore.getInstance()
+//                item_list[index].ItemName?.let { it1 ->
+//                    db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+//                        .document("Items").collection("ItemList")
+//                        .document(it1).set(item_list[index])
+//                }
+//
+//                index++
+//            }
+//
+//            pincode_index++
+//        }
+
+
+    }
+
     private fun check_empty_checkBoxes(): Boolean {
         var curr_s : Int = item_check_list.size
         var index_s : Int = 0;
@@ -259,7 +320,7 @@ class homeFragment : Fragment() {
         }
 
         total_kg_value = tkg.toString()
-        total_kg_txt.text = total_kg_value
+        //total_kg_txt.text = total_kg_value
 
         order_info.totalKg = total_kg_value
 
@@ -349,6 +410,7 @@ class homeFragment : Fragment() {
                         while(temp!=0)
                         {
                             item_check_list.add(false)
+                            item_txt_list.add("")
                             --temp
                         }
 
@@ -381,3 +443,4 @@ class homeFragment : Fragment() {
             }
     }
 }
+

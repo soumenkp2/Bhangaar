@@ -138,6 +138,16 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
             holder.user_address.visibility = View.VISIBLE
         }
 
+        holder.parentcard.setOnClickListener {
+            holder.up_arrow.rotation = 0F
+            holder.order_pic.visibility = View.VISIBLE
+            holder.order_status.visibility = View.VISIBLE
+            holder.username.visibility = View.VISIBLE
+            holder.order_list.visibility = View.VISIBLE
+            holder.showcase_pic.visibility = View.GONE
+            holder.user_address.visibility = View.VISIBLE
+        }
+
         holder.up_arrow.setOnClickListener {
             holder.up_arrow.rotation = 180F
             holder.order_pic.visibility = View.GONE
@@ -209,6 +219,6 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         val progress_linear : LinearLayout = itemView.findViewById(R.id.progress_linear)
         val user_address : TextView = itemView.findViewById(R.id.address)
         val total_kg : TextView = itemView.findViewById(R.id.total_kg)
-
+        val parentcard : CardView = itemView.findViewById(R.id.parentcard)
     }
 }
