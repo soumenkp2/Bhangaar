@@ -63,9 +63,7 @@ class Selection : AppCompatActivity() {
             intent.putExtra("userid", FirebaseAuth.getInstance().currentUser?.uid.toString())
             intent.putExtra("phone", FirebaseAuth.getInstance().currentUser?.phoneNumber.toString())
             intent.putExtra("screen","signin")
-//            Toast.makeText(applicationContext,
-//                FirebaseAuth.getInstance().currentUser?.uid.toString(),
-//                Toast.LENGTH_SHORT).show()
+
             startActivity(intent)
         }
     }

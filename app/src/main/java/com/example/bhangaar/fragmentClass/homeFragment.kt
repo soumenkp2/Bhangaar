@@ -1,9 +1,12 @@
 package com.example.bhangaar.fragmentClass
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,13 +85,12 @@ class homeFragment : Fragment() {
     private lateinit var usersetdb : FirebaseFirestore
     private lateinit var vendorsetdb : FirebaseFirestore
     public lateinit var item_list : ArrayList<Item_Info>
-    //public lateinit var expected_kg_item_list : ArrayList<Int>
 
     private lateinit var item_adapter : itemAdapter
 
     private lateinit var textname : TextView
     private lateinit var order_btn : TextView
-    //private lateinit var total_kg_txt : TextView
+
     var count : Int = 0
     lateinit var order_info : Order_Info
     lateinit var order_item_list : ArrayList<Item_Info>
@@ -124,6 +127,13 @@ class homeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view : View = inflater.inflate(R.layout.fragment_home, container, false)
 
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
+            // Request the user to grant permission to read SMS messages
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS), 2);
+            System.out.println("Permission Denied")
+        }
+
+
         val bundle = arguments
         authUserId = bundle!!.getString("userid").toString()
         lat = bundle.getString("lat").toString()
@@ -159,23 +169,44 @@ class homeFragment : Fragment() {
         recycler_item.adapter = item_adapter
 
         textname.setOnClickListener {
-//            var item_s : Int = item_check_list.size
-//            var index : Int = 0
-//            var curr_order_string : String = ""
-//
-//            while(item_s!=0)
-//            {
-//                if(item_check_list[index]==true)
-//                {
-//                    curr_order_string += item_list[index].expectedKg.toString()
-//                    curr_order_string += "\n"
-//                }
-//                index++
-//                item_s--
+            set_Pincodes()
+
+//            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_SMS) == PackageManager.PERMISSION_DENIED) {
+//                // Request the user to grant permission to read SMS messages
+//                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_SMS,Manifest.permission.SEND_SMS), 2);
+//                System.out.println("Permission Denied")
 //            }
 //
-//            Toast.makeText(context, curr_order_string.toString(), Toast.LENGTH_SHORT).show()
-            set_Pincodes()
+//            try {
+//
+//                // on below line we are initializing sms manager.
+//                //as after android 10 the getDefault function no longer works
+//                //so we have to check that if our android version is greater
+//                //than or equal toandroid version 6.0 i.e SDK 23
+//                val smsManager: SmsManager
+//                smsManager = if (Build.VERSION.SDK_INT>=23) {
+//                    //if SDK is greater that or equal to 23 then
+//                    //this is how we will initialize the SmsManager
+//                    //smsManager = (activity?.getSystemService(SmsManager::class.java) ?: ) as SmsManager
+//                    SmsManager.getDefault()
+//                } else{
+//                    //if user's SDK is less than 23 then
+//                    //SmsManager will be initialized like this
+//                    SmsManager.getDefault()
+//                }
+//
+//                // on below line we are sending text message.
+//                smsManager.sendTextMessage(phone, null,"Hi Your order has been placed!!", null, null)
+//
+//                // on below line we are displaying a toast message for message send,
+//                Toast.makeText(context, "Message Sent", Toast.LENGTH_LONG).show()
+//
+//            } catch (e: Exception) {
+//
+//                // on catch block we are displaying toast message for error.
+//                Toast.makeText(context, "Please enter all the data.."+e.message.toString(), Toast.LENGTH_LONG)
+//                    .show()
+//            }
         }
 
 
@@ -199,41 +230,43 @@ class homeFragment : Fragment() {
         order_btn.setOnClickListener {
             order_info.OrderNo = (0..1000000).random()
 
+
             if(check_empty_checkBoxes())
             {
                 SetDataEventListener()
+
+                val bundle = Bundle()
+                bundle.putString("userid",authUserId)
+                bundle.putString("role","user")
+                bundle.putString("name",name)
+                bundle.putString("state",state)
+                bundle.putString("lat",lat)
+                bundle.putString("long",long)
+                bundle.putString("address",address)
+                bundle.putString("postal",postal)
+                bundle.putString("phone",phone)
+                val homeFrag = homeFragment()
+                homeFrag.arguments = bundle
+
+                val transaction = activity?.supportFragmentManager?.beginTransaction()
+                if (transaction != null) {
+                    transaction.replace(R.id.frameLayout, homeFrag)
+                }
+                if (transaction != null) {
+                    transaction.disallowAddToBackStack()
+                }
+                if (transaction != null) {
+                    transaction.commit()
+
+                }
             }
             else{
                 Toast.makeText(context,"Fill all the empty boxes", Toast.LENGTH_SHORT).show()
             }
 
-
             //Toast.makeText(context,order_info.startTime + order_info.endTime, Toast.LENGTH_SHORT).show()
 
-            val bundle = Bundle()
-            bundle.putString("userid",authUserId)
-            bundle.putString("role","user")
-            bundle.putString("name",name)
-            bundle.putString("state",state)
-            bundle.putString("lat",lat)
-            bundle.putString("long",long)
-            bundle.putString("address",address)
-            bundle.putString("postal",postal)
-            bundle.putString("phone",phone)
-            val homeFrag = homeFragment()
-            homeFrag.arguments = bundle
 
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            if (transaction != null) {
-                transaction.replace(R.id.frameLayout, homeFrag)
-            }
-            if (transaction != null) {
-                transaction.disallowAddToBackStack()
-            }
-            if (transaction != null) {
-                transaction.commit()
-
-            }
 
 
 
@@ -246,8 +279,7 @@ class homeFragment : Fragment() {
 
     private fun set_Pincodes()
     {
-
-        Toast.makeText(context,"size : ${item_check_list.size} $ size : ${item_list.size}",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,UUID.randomUUID().toString().substring(0,7),Toast.LENGTH_SHORT).show()
 
         //Traversing pincodes arraylist and set itemlist there one by one
 //        var pincode_index : Int = 0
@@ -271,6 +303,8 @@ class homeFragment : Fragment() {
 
 
     }
+
+
 
     private fun check_empty_checkBoxes(): Boolean {
         var curr_s : Int = item_check_list.size
@@ -299,6 +333,7 @@ class homeFragment : Fragment() {
 
     private fun SetDataEventListener()
     {
+        order_info.uniqueID = UUID.randomUUID().toString().substring(0,7)
         order_info.OrderNo = (0..1000000).random()
         //order_info.OrderNo = 654321
         val order_no = order_info.OrderNo

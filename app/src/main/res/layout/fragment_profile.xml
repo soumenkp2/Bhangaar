@@ -182,7 +182,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/settings_offers"
                     android:orientation="horizontal"
                     android:elevation="10dp"
@@ -200,38 +200,6 @@
                         android:text="Address"
                         android:textColor="#000000"
                         android:textSize="16sp" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:id="@+id/settings_aadhar"
-                    android:orientation="horizontal"
-                    android:layout_margin="15dp"
-                    android:elevation="10dp"
-                    android:background="@drawable/primary_outline"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/transactions"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:gravity="center"
-                        android:text="Aadhar Info"
-                        android:textColor="#000000"
-                        android:textSize="20sp" />
-                    <ImageView
-                        android:id="@+id/transactions_img"
-                        android:layout_width="240dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_weight="4"
-                        android:src="@drawable/transaction_history"/>
 
                 </LinearLayout>
 

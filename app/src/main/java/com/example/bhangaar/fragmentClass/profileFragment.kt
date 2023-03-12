@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.example.bhangaar.R
 import com.example.bhangaar.Selection
 import com.example.bhangaar.personDetails
@@ -33,7 +34,6 @@ class profileFragment : Fragment() {
     private lateinit var signout : LinearLayout
     private lateinit var orders : LinearLayout
     private lateinit var offers : LinearLayout
-    private lateinit var aadhar : LinearLayout
     private lateinit var edit : ImageView
     private lateinit var name_txt : TextView
     private lateinit var phone_txt : TextView
@@ -94,6 +94,8 @@ class profileFragment : Fragment() {
 
         orders.setOnClickListener {
             //address_txt.text = address
+
+
         }
 
         signout.setOnClickListener {
@@ -129,7 +131,6 @@ class profileFragment : Fragment() {
         signout = v.findViewById(R.id.settings_signout)
         orders = v.findViewById(R.id.settings_orders)
         offers = v.findViewById(R.id.settings_offers)
-        aadhar = v.findViewById(R.id.settings_aadhar)
         edit = v.findViewById(R.id.settings_button)
         name_txt = v.findViewById(R.id.settings_name)
         location =  v.findViewById(R.id.settings_location)

@@ -182,7 +182,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/settings_offers"
                     android:orientation="horizontal"
                     android:elevation="10dp"
@@ -207,7 +207,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:id="@+id/settings_aadhar"
+                    android:id="@+id/settings_aadhar_vendor"
                     android:orientation="horizontal"
                     android:layout_margin="15dp"
                     android:elevation="10dp"
@@ -215,7 +215,7 @@
                     android:gravity="center_horizontal">
 
                     <TextView
-                        android:id="@+id/transactions"
+                        android:id="@+id/aadhar_vendor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -246,7 +246,7 @@
                     android:gravity="center_horizontal">
 
                     <TextView
-                        android:id="@+id/orders"
+                        android:id="@+id/orders_vendor"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"

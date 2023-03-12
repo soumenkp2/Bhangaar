@@ -46,6 +46,12 @@ class itemAdapter(private val item_list: ArrayList<Item_Info>, private val conte
         }
 
 
+        if(holder.item_kg_edit.text.isEmpty())
+        {
+            holder.item_kg_edit.setError("Cant be empty!")
+        }
+
+
         holder.item_kg_edit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -64,6 +70,10 @@ class itemAdapter(private val item_list: ArrayList<Item_Info>, private val conte
                         cnt++
                     }
 
+                }
+                else if(holder.item_kg_edit.text.isEmpty())
+                {
+                    holder.item_kg_edit.setError("Cant be empty!")
                 }
             }
         })

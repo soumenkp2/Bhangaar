@@ -182,7 +182,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,order_item.UserLocation.toString(),lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog(order_item.uniqueID.toString(),"Yay, you are finally accepting the order", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "accepted",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -192,7 +192,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,order_item.UserLocation.toString(),lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog(order_item.uniqueID.toString(),"Are you sure to complete the order?", holder.order_no.text.toString(), authuserid, authVendorId,order_item, itemlist, "completed",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }
@@ -202,7 +202,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
 
             val activity = context as FragmentActivity
             val fm: FragmentManager = activity.supportFragmentManager
-            val alertDialog = orderTransactionDialog("Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,order_item.UserLocation.toString(),lat, long,name,address,role)
+            val alertDialog = orderTransactionDialog("null","Are you sure to cancel the order?", holder.order_no.text.toString(), authuserid, authVendorId, order_item, itemlist, "cancelled",state,order_item.UserLocation.toString(),lat, long,name,address,role)
             alertDialog.show(fm, "fragment_alert")
 
         }

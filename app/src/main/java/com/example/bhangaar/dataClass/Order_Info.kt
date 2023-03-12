@@ -16,4 +16,5 @@ data class Order_Info(var OrderNo : Int ?= null,
                       var endTime : String ?= null,
                       var totalKg : String ?= null,
                       var dist : Int ?= null,
+                      var uniqueID : String ?= null,
                       )

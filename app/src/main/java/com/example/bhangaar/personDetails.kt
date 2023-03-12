@@ -294,7 +294,9 @@ class personDetails : AppCompatActivity() {
             arrayOf(
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CALL_PHONE
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.SEND_SMS
             ),
             permissionId
         )

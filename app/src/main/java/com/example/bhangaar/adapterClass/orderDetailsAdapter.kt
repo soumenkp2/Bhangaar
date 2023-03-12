@@ -30,60 +30,9 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         return itemViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: itemViewHolder, position: Int)
     {
-//        val order_item : Order_Info = order_list[position]
-//
-//        holder.order_no.text = order_item.OrderNo.toString()
-//        holder.order_status.text = order_item.OrderStatus.toString()
-//        holder.username.text = order_item.UserName.toString()
-//
-//        order_no = order_item.OrderNo.toString()
-//
-//        holder.order_no.setOnClickListener {
-//            holder.order_pic.visibility = View.VISIBLE
-//            holder.order_status.visibility = View.VISIBLE
-//            holder.username.visibility = View.VISIBLE
-//            holder.order_list.visibility = View.VISIBLE
-//        }
-//
-//        holder.order_list.layoutManager = LinearLayoutManager(context)
-//        holder.order_list.hasFixedSize()
-//        val itemlist : ArrayList<Item_Info> = arrayListOf()
-//
-//        //fetchOrderItemData()
-//
-//        val db : FirebaseFirestore
-//        db = FirebaseFirestore.getInstance()
-//        db.collection("test").document("UttarPradesh").collection("201204").document("Users")
-//            .collection(userid).document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
-//            .addSnapshotListener(object : EventListener<QuerySnapshot>
-//            {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                    if(p1!=null)
-//                    {
-//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                        Log.e(p1.toString(),"Error Message")
-//                    }
-//
-//                    for(dc : DocumentChange in p0?.documentChanges!!)
-//                    {
-//                        if(dc.type == DocumentChange.Type.ADDED)
-//                        {
-//                            itemlist.add(dc.document.toObject(Item_Info::class.java))
-//                        }
-//                    }
-//
-//                    orderAdapter.notifyDataSetChanged()
-//
-//                }
-//
-//
-//            })
-//
-//        orderAdapter = context.let { orderAdapter(itemlist, it) }
-//        holder.order_list.adapter = orderAdapter
 
         val order_item : Order_Info = order_list[position]
 
@@ -94,6 +43,8 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         holder.username.text = order_item.UserName.toString()
         holder.user_address.text = order_item.userAddress.toString()
         holder.total_kg.text = "Total - " + order_item.totalKg.toString() + "/kg"
+
+        holder.distance.text = "UID - "+order_item.uniqueID
 
         order_no = order_item.OrderNo.toString()
 
@@ -126,7 +77,6 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
         holder.order_list.hasFixedSize()
 
         holder.accept_card.visibility = View.GONE
-//        holder.distance.visibility = View.GONE
 
         holder.order_no.setOnClickListener {
             holder.up_arrow.rotation = 0F

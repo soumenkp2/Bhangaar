@@ -130,7 +130,7 @@ class profileFragmentVendor : Fragment() {
         signout = v.findViewById(R.id.settings_signout)
         orders = v.findViewById(R.id.settings_orders)
         offers = v.findViewById(R.id.settings_offers)
-        aadhar = v.findViewById(R.id.settings_aadhar)
+        //aadhar = v.findViewById(R.id.settings_aadhar)
         edit = v.findViewById(R.id.settings_button)
         name_txt = v.findViewById(R.id.settings_name)
         location =  v.findViewById(R.id.settings_location)

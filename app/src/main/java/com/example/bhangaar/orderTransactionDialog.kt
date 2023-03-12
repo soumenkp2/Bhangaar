@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,11 +21,12 @@ import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
 
-class orderTransactionDialog(private val scr : String, private val order_no : String, private var authUserId : String, private var authVendorId : String, private var order_item : Order_Info, private var itemlist : ArrayList<Item_Info>, private var action : String, private val state : String, private val postal : String, private val lat : String, private val long : String, private val name : String, private val address : String, private val role : String) : DialogFragment() {
+class orderTransactionDialog(private val uid : String, private val scr : String, private val order_no : String, private var authUserId : String, private var authVendorId : String, private var order_item : Order_Info, private var itemlist : ArrayList<Item_Info>, private var action : String, private val state : String, private val postal : String, private val lat : String, private val long : String, private val name : String, private val address : String, private val role : String) : DialogFragment() {
 
     private lateinit var yesbtn : ImageView
     private lateinit var nobtn : ImageView
     private lateinit var content : TextView
+    private lateinit var uidtxt : EditText
     private var screen : String = scr.toString()
     private var change : String = action.toString()
    // private var dialog : orderTransactionDialog = alertDialog
@@ -35,6 +37,14 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
         //Objects.requireNonNull(dialog)?.window!!.requestFeature(Window.FEATURE_NO_TITLE)
         var v : View =  inflater.inflate(R.layout.transaction_dialogbox,null,false)
 
+        uidtxt = v.findViewById(R.id.uidtxt)
+        if(action.toString() == "completed")
+        {
+            Toast.makeText(context,"Please enter UID to complete the order",Toast.LENGTH_SHORT).show()
+
+            uidtxt.visibility = View.VISIBLE
+        }
+
         yesbtn = v.findViewById(R.id.yesbtn)
         nobtn = v.findViewById(R.id.nobtn)
         content = v.findViewById(R.id.dialog_content)
@@ -42,7 +52,7 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
         content.text = screen.toString()
 
 
-        Toast.makeText(context, order_item.OrderNo.toString(), Toast.LENGTH_SHORT).show()
+       // Toast.makeText(context, order_item.OrderNo.toString(), Toast.LENGTH_SHORT).show()
 
         yesbtn.setOnClickListener {
 
@@ -86,7 +96,7 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
 
                 }
             }
-            else if(change == "completed")
+            else if(change == "completed" && uidtxt.text.toString() == uid.toString())
             {
                 val transaction = activity?.supportFragmentManager?.beginTransaction()
                 if (transaction != null) {
@@ -168,6 +178,10 @@ class orderTransactionDialog(private val scr : String, private val order_no : St
                     transaction.commit()
 
                 }
+            }
+            else
+            {
+                Toast.makeText(context,"You might have entered wrong order UID",Toast.LENGTH_SHORT).show()
             }
 
         }
