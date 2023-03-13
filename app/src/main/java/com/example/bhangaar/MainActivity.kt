@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         phone = intent.extras?.get("phone").toString()
 
 
+
         //Toast.makeText(applicationContext, authUserId + state + postal , Toast.LENGTH_SHORT).show()
 
 //        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

@@ -39,6 +39,7 @@ class profileFragment : Fragment() {
     private lateinit var phone_txt : TextView
     private lateinit var location : TextView
     private lateinit var address_txt : TextView
+    private lateinit var state_txt : TextView
 
     var authUserId = "Soumen"
 
@@ -81,6 +82,8 @@ class profileFragment : Fragment() {
         phone_txt.text = phone.toString()
         location.text = postal.toString()
         address_txt.text = address
+        state_txt.text = state.toString()
+
 
         edit.setOnClickListener {
             val intent = Intent(activity, personDetails::class.java)
@@ -136,6 +139,7 @@ class profileFragment : Fragment() {
         location =  v.findViewById(R.id.settings_location)
         phone_txt =  v.findViewById(R.id.settings_phone)
         address_txt = v.findViewById(R.id.address_txt)
+        state_txt = v.findViewById(R.id.state_user)
     }
 
     companion object {

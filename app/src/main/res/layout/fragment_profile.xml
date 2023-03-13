@@ -214,7 +214,7 @@
                     android:gravity="center_horizontal">
 
                     <TextView
-                        android:id="@+id/orders"
+                        android:id="@+id/state_user"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
@@ -230,7 +230,7 @@
                         android:layout_weight="4"
                         android:layout_marginTop="7dp"
                         android:layout_marginEnd="15dp"
-                        android:src="@drawable/order"/>
+                        android:src="@drawable/map"/>
 
                 </LinearLayout>
 
