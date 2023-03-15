@@ -87,6 +87,7 @@ class profileFragmentVendor : Fragment() {
         address_txt.text = address
         state_txt.text = state.toString()
 
+
         edit.setOnClickListener {
             val intent = Intent(activity, personDetails::class.java)
             intent.putExtra("role",role)
