@@ -196,6 +196,7 @@ class personDetails : AppCompatActivity() {
         }
 
         fetch_btn.setOnClickListener {
+            Toast.makeText(applicationContext, "Fetching Live Location details, Please wait!",Toast.LENGTH_SHORT).show()
             getLocation()
         }
 
