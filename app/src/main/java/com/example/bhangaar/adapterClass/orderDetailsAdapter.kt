@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.R
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
@@ -107,11 +108,10 @@ class orderDetailsAdapter(private var userid : String, private val order_list : 
             holder.showcase_pic.visibility = View.VISIBLE
             holder.user_address.visibility = View.GONE
         }
-
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
+        db.collection(mode).document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {

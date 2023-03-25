@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
 import com.example.bhangaar.fragmentClassVendor.homeFragmentVendor
@@ -64,13 +65,13 @@ class orderTransactionDialog(private val uid : String, private val scr : String,
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document(state).collection(postal)
+                    db.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Accepted"))
 
                     var dbb = FirebaseFirestore.getInstance()
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document(state).collection(postal)
+                    dbb.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
@@ -103,14 +104,14 @@ class orderTransactionDialog(private val uid : String, private val scr : String,
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document(state).collection(postal)
+                    db.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Completed"))
 
                     var dbb = FirebaseFirestore.getInstance()
 
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document(state).collection(postal)
+                    dbb.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
@@ -145,13 +146,13 @@ class orderTransactionDialog(private val uid : String, private val scr : String,
 
                     var db = FirebaseFirestore.getInstance()
                     db = FirebaseFirestore.getInstance()
-                    db.collection("BhangaarItems").document(state).collection(postal)
+                    db.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("orderStatus" to "Cancelled"))
 
                     var dbb = FirebaseFirestore.getInstance()
                     dbb = FirebaseFirestore.getInstance()
-                    dbb.collection("BhangaarItems").document(state).collection(postal)
+                    dbb.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString())
                         .update(mapOf("authvendorid" to authVendorId.toString()))
 
@@ -198,7 +199,7 @@ class orderTransactionDialog(private val uid : String, private val scr : String,
     {
         Log.e("entered", "yayay")
         var db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection(mode).document("UttarPradesh").collection("201204")
             .document("Vendors").collection(authVendorId)
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_item)
 
@@ -207,7 +208,7 @@ class orderTransactionDialog(private val uid : String, private val scr : String,
         {
             db = FirebaseFirestore.getInstance()
             itemlist[index].ItemName?.let { it1 ->
-                db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+                db.collection(mode).document("UttarPradesh").collection("201204")
                     .document("Vendors").collection(authVendorId)
                     .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                     .document(it1).set(itemlist[index])

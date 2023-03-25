@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.R
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
@@ -134,7 +135,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
         val itemlist :ArrayList<Item_Info> = arrayListOf()
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(order_item.UserLocation.toString())
+        db.collection(mode).document(state).collection(order_item.UserLocation.toString())
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -230,7 +231,7 @@ class orderRequestAdapter(private val order_list : MutableList<Order_Info>, priv
     private fun fetchOrderItemData() {
         val db : FirebaseFirestore
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("201204")
+        db.collection(mode).document("UttarPradesh").collection("201204")
             .document("Orders").collection("OrderDetailList").document(order_no).collection("OrderItemList")
             .addSnapshotListener(object : EventListener<QuerySnapshot>
             {

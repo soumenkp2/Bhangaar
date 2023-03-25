@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.orderRequestAdapter
 import com.example.bhangaar.dataClass.Order_Info
@@ -137,7 +138,7 @@ class orderFragmentVendor : Fragment() {
         while(pincode_index != pincodes.size)
         {
             db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+            db.collection(mode).document(state).collection(pincodes[pincode_index])
                 .document("Orders").collection("OrderDetailList").
                 addSnapshotListener(object : EventListener<QuerySnapshot>
                 {
@@ -215,7 +216,7 @@ class orderFragmentVendor : Fragment() {
         while(pincode_index != pincodes.size)
         {
             db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+            db.collection(mode).document(state).collection(pincodes[pincode_index])
                 .document("Orders").collection("OrderDetailList").
                 addSnapshotListener(object : EventListener<QuerySnapshot>
                 {
@@ -250,39 +251,6 @@ class orderFragmentVendor : Fragment() {
             pincode_index++
         }
 
-//        db = FirebaseFirestore.getInstance()
-//        db.collection("BhangaarItems").document(state).collection(postal)
-//            .document("Orders").collection("OrderDetailList").
-//            addSnapshotListener(object : EventListener<QuerySnapshot>
-//            {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                    if(p1!=null)
-//                    {
-//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                        Log.e(p1.toString(),"Error Message")
-//                    }
-//
-//                    for(dc : DocumentChange in p0?.documentChanges!!)
-//                    {
-//                        if(dc.type == DocumentChange.Type.ADDED)
-//                        {
-//                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
-//
-//                            if(order_item.OrderStatus.equals("Completed") && order_item.authvendorid.equals(authVendorId))
-//                            {
-//                                orderDetailList.add(order_item)
-//                            }
-//
-//                        }
-//                    }
-//
-//                    orderDetailsAdapter.notifyDataSetChanged()
-//
-//                }
-//
-//
-//            })
 
     }
 
@@ -292,7 +260,7 @@ class orderFragmentVendor : Fragment() {
         while(pincode_index != pincodes.size)
         {
             db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+            db.collection(mode).document(state).collection(pincodes[pincode_index])
                 .document("Orders").collection("OrderDetailList").
                 addSnapshotListener(object : EventListener<QuerySnapshot>
                 {
@@ -327,39 +295,6 @@ class orderFragmentVendor : Fragment() {
             pincode_index++
         }
 
-//        db = FirebaseFirestore.getInstance()
-//        db.collection("BhangaarItems").document(state).collection(postal)
-//            .document("Orders").collection("OrderDetailList").
-//            addSnapshotListener(object : EventListener<QuerySnapshot>
-//            {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(p0: QuerySnapshot?, p1: FirebaseFirestoreException?) {
-//                    if(p1!=null)
-//                    {
-//                        Toast.makeText(context, p1.toString(), Toast.LENGTH_SHORT).show()
-//                        Log.e(p1.toString(),"Error Message")
-//                    }
-//
-//                    for(dc : DocumentChange in p0?.documentChanges!!)
-//                    {
-//                        if(dc.type == DocumentChange.Type.ADDED)
-//                        {
-//                            val order_item : Order_Info = dc.document.toObject(Order_Info::class.java)
-//
-//                            if(order_item.OrderStatus.equals("Cancelled") && order_item.authvendorid.equals(authVendorId))
-//                            {
-//                                orderDetailList.add(order_item)
-//                            }
-//
-//                        }
-//                    }
-//
-//                    orderDetailsAdapter.notifyDataSetChanged()
-//
-//                }
-//
-//
-//            })
 
     }
 

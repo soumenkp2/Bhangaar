@@ -18,8 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
+import com.example.bhangaar.Constants.Companion.mode
+import com.example.bhangaar.R
+
 import com.example.bhangaar.dataClass.Item_Info
 import com.example.bhangaar.dataClass.Order_Info
 import com.example.bhangaar.orderDetails
@@ -48,36 +50,40 @@ class homeFragment : Fragment() {
 
     private var pincodes : ArrayList<String> = arrayListOf<String>(
         "201204",
-        "245101",
-        "201015",
-        "245208",
-        "245201",
-        "245304",
-        "201009",
-        "201001",
-        "245205",
-        "201003",
-        "201102",
-        "245207",
-        "201010",
-        "201005",
-        "201011",
-        "201006",
         "201201",
-        "201016",
-        "245301",
-        "201013",
-        "201004",
-        "201002",
-        "201012",
-        "201014",
-        "201007",
-        "201301",
-        "201303",
-        "201017",
-        "201103",
-        "201019"
-        )
+    )
+//    private var pincodes : ArrayList<String> = arrayListOf<String>(
+//        "201204",
+//        "245101",
+//        "201015",
+//        "245208",
+//        "245201",
+//        "245304",
+//        "201009",
+//        "201001",
+//        "245205",
+//        "201003",
+//        "201102",
+//        "245207",
+//        "201010",
+//        "201005",
+//        "201011",
+//        "201006",
+//        "201201",
+//        "201016",
+//        "245301",
+//        "201013",
+//        "201004",
+//        "201002",
+//        "201012",
+//        "201014",
+//        "201007",
+//        "201301",
+//        "201303",
+//        "201017",
+//        "201103",
+//        "201019"
+//        )
 
     private lateinit var recycler_item : RecyclerView
     private lateinit var db : FirebaseFirestore
@@ -282,24 +288,24 @@ class homeFragment : Fragment() {
         Toast.makeText(context,UUID.randomUUID().toString().substring(0,7),Toast.LENGTH_SHORT).show()
 
         //Traversing pincodes arraylist and set itemlist there one by one
-//        var pincode_index : Int = 0
-//        while(pincode_index != pincodes.size)
-//        {
-//            var index = 0
-//            while(index != item_list.size)
-//            {
-//                db = FirebaseFirestore.getInstance()
-//                item_list[index].ItemName?.let { it1 ->
-//                    db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
-//                        .document("Items").collection("ItemList")
-//                        .document(it1).set(item_list[index])
-//                }
-//
-//                index++
-//            }
-//
-//            pincode_index++
-//        }
+        var pincode_index : Int = 0
+        while(pincode_index != pincodes.size)
+        {
+            var index = 0
+            while(index != item_list.size)
+            {
+                db = FirebaseFirestore.getInstance()
+                item_list[index].ItemName?.let { it1 ->
+                    db.collection(mode).document(state).collection(pincodes[pincode_index])
+                        .document("Items").collection("ItemList")
+                        .document(it1).set(item_list[index])
+                }
+
+                index++
+            }
+
+            pincode_index++
+        }
 
 
     }
@@ -361,7 +367,7 @@ class homeFragment : Fragment() {
 
         //Mapping the setdb object to insert data
         setdb = FirebaseFirestore.getInstance()
-        setdb.collection("BhangaarItems").document(state).collection(postal)
+        setdb.collection(mode).document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").document(order_no.toString()).set(order_info)
 
 
@@ -382,7 +388,7 @@ class homeFragment : Fragment() {
 
                 setdb = FirebaseFirestore.getInstance()
                 item_list[index].ItemName?.let { it1 ->
-                    setdb.collection("BhangaarItems").document(state).collection(postal)
+                    setdb.collection(mode).document(state).collection(postal)
                         .document("Orders").collection("OrderDetailList").document(order_no.toString()).collection("OrderItemList")
                         .document(it1).set(item_list[index])
                 }
@@ -418,7 +424,7 @@ class homeFragment : Fragment() {
     private fun EventChangeListener()
     {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal).document("Items")
+        db.collection(mode).document(state).collection(postal).document("Items")
             .collection("ItemList").
         //db.collection("test").
                 addSnapshotListener(object : EventListener<QuerySnapshot>

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.itemAdapter
 import com.example.bhangaar.adapterClass.orderDetailsAdapter
@@ -137,7 +138,7 @@ class orderFragment : Fragment() {
 
     private fun fetchOrderDetailData_live() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
+        db.collection(mode).document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -173,7 +174,7 @@ class orderFragment : Fragment() {
 
     private fun fetchOrderDetailData_accepted() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
+        db.collection(mode).document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {
@@ -209,7 +210,7 @@ class orderFragment : Fragment() {
 
     private fun fetchOrderDetailData_Finished() {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document(state).collection(postal)
+        db.collection(mode).document(state).collection(postal)
             .document("Orders").collection("OrderDetailList").
             addSnapshotListener(object : EventListener<QuerySnapshot>
             {

@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bhangaar.Constants.Companion.mode
 import com.example.bhangaar.R
 import com.example.bhangaar.adapterClass.orderDetailsAdapter
 import com.example.bhangaar.adapterClass.orderRequestAdapter
@@ -108,7 +109,7 @@ class homeFragmentVendor : Fragment() {
     private fun fetchPincodes()
     {
         db = FirebaseFirestore.getInstance()
-        db.collection("BhangaarItems").document("UttarPradesh").collection("pincodes")
+        db.collection(mode).document("UttarPradesh").collection("pincodes")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -153,7 +154,7 @@ class homeFragmentVendor : Fragment() {
             var pincode_index : Int = 0
             while(pincode_index != pincodes.size)
             {
-                db.collection("BhangaarItems").document(state).collection(pincodes[pincode_index])
+                db.collection(mode).document(state).collection(pincodes[pincode_index])
                     .document("Orders").collection("OrderDetailList").
                     addSnapshotListener(object : EventListener<QuerySnapshot>
                     {

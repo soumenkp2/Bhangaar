@@ -230,7 +230,7 @@ class SignUp : AppCompatActivity() {
             OTP = verificationId
             resendToken = token
 
-            Toast.makeText(applicationContext,"Thanks for your choosing Bhangaar! Your OTP : " + verificationId, Toast.LENGTH_SHORT).show();
+            Toast.makeText(applicationContext,"Thanks for choosing Kabadiwaley Bhaiya!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -304,7 +304,7 @@ class SignUp : AppCompatActivity() {
         super.onStart()
         if(auth.currentUser != null && screen.toString()=="signin")
         {
-            Log.v("ss", "ssfekfe");
+            //Log.v("ss", "ssfekfe");
             val intent : Intent
             intent = Intent(this, personDetails::class.java)
             intent.putExtra("role",role)

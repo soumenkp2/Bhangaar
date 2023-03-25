@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import java.util.*
+import com.example.bhangaar.Constants
+import com.example.bhangaar.Constants.Companion.mode
 
 class personDetails : AppCompatActivity() {
 
@@ -84,7 +86,7 @@ class personDetails : AppCompatActivity() {
 
             var person_info : Person_Info = Person_Info()
             val db = FirebaseFirestore.getInstance()
-            db.collection("BhangaarItems")
+            db.collection(mode)
                 .document(role).collection(userid).
                 addSnapshotListener(object : EventListener<QuerySnapshot>
                 {
@@ -173,7 +175,7 @@ class personDetails : AppCompatActivity() {
                     )
 
                 val setdb : FirebaseFirestore = FirebaseFirestore.getInstance()
-                setdb.collection("BhangaarItems").document(role).collection(userid)
+                setdb.collection(mode).document(role).collection(userid)
                     .document(userid).set(person_info)
 
                 val intent : Intent
