@@ -399,7 +399,7 @@ class homeFragment : Fragment() {
             ++index
         }
 
-        Toast.makeText(context, test, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, test, Toast.LENGTH_SHORT).show()
 
         val intent = Intent(activity, orderDetails::class.java)
         intent.putExtra("OrderItemList", order_item_list)

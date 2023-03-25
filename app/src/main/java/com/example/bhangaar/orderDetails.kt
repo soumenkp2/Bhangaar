@@ -35,7 +35,7 @@ class orderDetails : AppCompatActivity() {
         order_item_list =
             (intent.getSerializableExtra("OrderItemList") as ArrayList<Item_Info>)
 
-        Toast.makeText(applicationContext, "s"+order_item_list[0].ItemName, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, "s"+order_item_list[0].ItemName, Toast.LENGTH_SHORT).show()
 
         order_recycler_item.layoutManager = LinearLayoutManager(applicationContext)
         order_recycler_item.hasFixedSize()

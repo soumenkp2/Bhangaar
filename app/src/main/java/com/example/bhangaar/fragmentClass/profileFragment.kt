@@ -11,8 +11,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.bhangaar.Agreement
 import com.example.bhangaar.R
 import com.example.bhangaar.Selection
+import com.example.bhangaar.fragmentClassVendor.orderFragmentVendor
 import com.example.bhangaar.personDetails
 import com.google.firebase.auth.FirebaseAuth
 
@@ -41,7 +43,10 @@ class profileFragment : Fragment() {
     private lateinit var address_txt : TextView
     private lateinit var state_txt : TextView
 
-    var authUserId = "Soumen"
+    private lateinit var pp : TextView
+    private lateinit var tnc : TextView
+
+    private var authUserId = "Soumen"
 
     private var lat : String = "s"
     private var long : String= "s"
@@ -101,6 +106,45 @@ class profileFragment : Fragment() {
 
         }
 
+        pp.setOnClickListener {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val webfrag = Agreement()
+            val bundle = Bundle()
+            bundle.putString("userid",authUserId)
+            bundle.putString("role",role)
+            bundle.putString("name",name)
+            bundle.putString("state",state)
+            bundle.putString("lat",lat)
+            bundle.putString("long",long)
+            bundle.putString("address",address)
+            bundle.putString("postal",postal)
+            bundle.putString("phone",phone)
+            bundle.putString("link","https://www.freeprivacypolicy.com/live/8ee725c5-2dfe-43b6-b519-2f5fa35fa699")
+            webfrag.arguments = bundle
+            transaction?.replace(R.id.frameLayout, webfrag)
+            transaction?.commit()
+        }
+
+        tnc.setOnClickListener {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            val webfrag = Agreement()
+            val bundle = Bundle()
+            bundle.putString("userid",authUserId)
+            bundle.putString("role",role)
+            bundle.putString("name",name)
+            bundle.putString("state",state)
+            bundle.putString("lat",lat)
+            bundle.putString("long",long)
+            bundle.putString("address",address)
+            bundle.putString("postal",postal)
+            bundle.putString("phone",phone)
+            bundle.putString("link","https://www.freeprivacypolicy.com/live/621f5a9f-5796-4235-b5fe-277463504280")
+            webfrag.arguments = bundle
+            transaction?.replace(R.id.frameLayout, webfrag)
+            transaction?.disallowAddToBackStack()
+            transaction?.commit()
+        }
+
         signout.setOnClickListener {
 
             Log.v("signout", "clicked")
@@ -140,6 +184,8 @@ class profileFragment : Fragment() {
         phone_txt =  v.findViewById(R.id.settings_phone)
         address_txt = v.findViewById(R.id.address_txt)
         state_txt = v.findViewById(R.id.state_user)
+        pp = v.findViewById(R.id.privacy_policy)
+        tnc = v.findViewById(R.id.tnc)
     }
 
     companion object {
