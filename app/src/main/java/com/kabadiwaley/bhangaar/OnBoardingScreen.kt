@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import com.kabadiwaley.bhangaar.R
 
 class OnBoardingScreen : AppCompatActivity() {
 

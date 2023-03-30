@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.kabadiwaley.bhangaar.R
 import com.kabadiwaley.bhangaar.Constants.Companion.mode
 import com.kabadiwaley.bhangaar.dataClass.Item_Info
 import com.kabadiwaley.bhangaar.dataClass.Order_Info

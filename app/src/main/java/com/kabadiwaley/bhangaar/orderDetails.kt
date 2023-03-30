@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kabadiwaley.bhangaar.R
 import com.kabadiwaley.bhangaar.adapterClass.itemAdapter
 import com.kabadiwaley.bhangaar.adapterClass.orderAdapter
 import com.kabadiwaley.bhangaar.dataClass.Item_Info

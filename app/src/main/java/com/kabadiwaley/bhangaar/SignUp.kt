@@ -16,6 +16,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.concurrent.TimeUnit
+import com.kabadiwaley.bhangaar.R
 
 class SignUp : AppCompatActivity() {
 

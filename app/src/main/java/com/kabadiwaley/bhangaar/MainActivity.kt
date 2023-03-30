@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.kabadiwaley.bhangaar.R
 import com.kabadiwaley.bhangaar.fragmentClass.homeFragment
 import com.kabadiwaley.bhangaar.fragmentClass.orderFragment
 import com.kabadiwaley.bhangaar.fragmentClass.profileFragment

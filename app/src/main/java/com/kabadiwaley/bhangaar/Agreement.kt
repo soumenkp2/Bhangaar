@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ImageView
+import com.kabadiwaley.bhangaar.R
 import com.kabadiwaley.bhangaar.fragmentClass.profileFragment
 import com.kabadiwaley.bhangaar.fragmentClassVendor.profileFragmentVendor
 

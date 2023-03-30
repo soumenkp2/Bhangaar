@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import com.kabadiwaley.bhangaar.R
 import com.google.firebase.auth.FirebaseAuth
 
 

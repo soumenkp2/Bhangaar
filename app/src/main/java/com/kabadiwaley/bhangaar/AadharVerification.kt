@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 
+
 class AadharVerification : AppCompatActivity() {
     private lateinit var textskip: TextView
 
