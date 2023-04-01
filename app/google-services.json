@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:492542810416:android:5b2a7f490887fa2eba90f5",
         "android_client_info": {
-          "package_name": "com.example.bhangaar"
+          "package_name": "com.kabadiwaley.bhangaar"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "492542810416-0945ratievt7bbnirmld8q94oo3qodnt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.bhangaar",
+            "package_name": "com.kabadiwaley.bhangaar",
             "certificate_hash": "e9178f320de1dd49ff2c786ff885e1589e2accee"
           }
         },

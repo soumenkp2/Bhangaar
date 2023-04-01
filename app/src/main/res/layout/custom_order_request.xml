@@ -8,6 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        android:id="@+id/parentcard"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="15dp"
@@ -91,6 +92,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/order_no" />
 
+            <LinearLayout
+                android:id="@+id/linearactions"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/user_location"
+                    android:padding="5dp"
+                    android:src="@drawable/map" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/user_call"
+                    android:padding="5dp"
+                    android:src="@drawable/call" />
+
+            </LinearLayout>
+
+
             <TextView
                 android:id="@+id/location"
                 android:layout_width="wrap_content"
@@ -98,7 +128,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center"
-                android:text="Distance - 2km"
+                android:text="Distance - 0km"
                 android:textColor="@color/teal_700"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,8 +160,40 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username"
+                app:layout_constraintTop_toBottomOf="@+id/linearactions"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/total_kg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Total - "
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/accept_linear"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintVertical_bias="0.166"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Address"
+                android:textColor="@color/teal_700"
+                android:textSize="22sp"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/accept_linear"
+                app:layout_constraintTop_toBottomOf="@+id/total_kg"
+                app:layout_constraintVertical_bias="0.166"
+                tools:layout_editor_absoluteX="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,7 +205,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintTop_toBottomOf="@+id/address"
                 app:layout_constraintVertical_bias="1.0">
 
                 <androidx.cardview.widget.CardView
@@ -199,14 +261,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_order_items"
+                app:layout_constraintTop_toBottomOf="@+id/address"
                 app:layout_constraintVertical_bias="1.0">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/completecard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="40dp"
@@ -227,7 +291,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_semibold"
                             android:gravity="center"
-                            android:text="Accept"
+                            android:text="Complete"
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -245,7 +309,8 @@
                     android:id="@+id/cancelcard"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#FFFFFF"
                     app:cardCornerRadius="40dp"

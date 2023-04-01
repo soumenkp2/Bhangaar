@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:padding="10dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView
@@ -44,6 +45,7 @@
             android:id="@+id/textname"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
+            android:layout_marginTop="20dp"
             android:textSize="30sp"/>
 
         <TextView
@@ -60,6 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/item_recycler"/>
+
+
 
         <TextView
             android:layout_width="250dp"
