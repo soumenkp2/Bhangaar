@@ -66,7 +66,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
             android:inputType="number"
-            android:visibility="visible"
+            android:visibility="gone"
             android:hint="Enter your Aadhaar Number"
             android:padding="10dp"
             android:textSize="18sp" />

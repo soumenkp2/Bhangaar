@@ -76,7 +76,7 @@ class personDetails : AppCompatActivity() {
         role = intent.extras?.get("role").toString()
         phone = intent.extras?.get("phone").toString()
         screen = intent.extras?.get("screen").toString()
-        aadhar = intent.extras?.get("aadhaar").toString()
+        //aadhar = intent.extras?.get("aadhaar").toString()
 
         //Toast.makeText(applicationContext,userid,Toast.LENGTH_SHORT).show()
         edit_name.setText(name.toString())
